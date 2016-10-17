@@ -24,6 +24,7 @@ function catTree(&$list,$data, $pid = 0, $level = 0)
  */
 function pp()
 {
+    echo '<meta charset="utf-8"/>';
     $arr = func_get_args();
     echo '<pre>';
     foreach($arr as $val) {
@@ -36,6 +37,7 @@ function pp()
 
 function ppd()
 {
+    echo '<meta charset="utf-8"/>';
     $arr = func_get_args();
     echo '<pre>';
     foreach($arr as $val) {
@@ -45,4 +47,26 @@ function ppd()
     }
     echo '</pre>';
     die();
+}
+
+function md5Pwd($pwd){
+    $pwd .="@kevin";
+    return md5($pwd);
+}
+
+function checkIsEmail($email){
+    if(strpos('@',$email)){
+        return $email;
+    }else{
+        return '';
+    }
+}
+
+function showAjax($msg,$type='success'){
+    if($type == 'error'){
+        $msgArr = array('status' => 1002,'msg'=>$msg);
+    }else{
+        $msgArr = array('status' => 200,'msg'=>$msg);
+    }
+    return json_encode($msgArr,JSON_UNESCAPED_UNICODE);
 }

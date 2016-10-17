@@ -120,3 +120,44 @@ textarea:focus,input[type="text"]:focus,input[type="password"]:focus,input[type=
 .list-page a{margin:0 5px;padding:2px 7px;border:1px solid #ccc;background:#f3f3f3;}
 .list-page a:hover{background:#e4e4e4;border:1px solid #908f8f;}
 .list-page .current{margin:0 5px;padding:2px 7px;background:#f60;border:1px solid #fe8101;color:#fff;}
+
+#poptip {
+    position: absolute;
+    width:100%;
+    height: 1600px;
+    display: block;
+    background:#000;
+    opacity: 0.3;
+    filter:alpha(opacity=0.3);
+    color:#fff;
+    z-index: 9990;
+    top: 0px;
+    left:0px;
+}
+#poptip_content {
+    border-radius:5px;
+    -webkit-border-radius:5px;
+    -moz-border-radius:5px;
+    position: absolute;
+    top:30%;
+    left:50%;
+    min-height: 15px;
+    padding: 15px;
+    width:160px;
+    margin-left:-80px;
+    color:#fff;
+    text-align:center;
+    font-size:14px;
+    z-index: 9999;
+    line-height:30px;
+}
+.tip_success{
+    color: rgb(255, 255, 255);
+    background-color: #E23C3D;
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 2.2);
+}
+.tip_danger{
+    color: rgb(255, 255, 255);
+    background-color: #f59f25;
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 2.2);
+}

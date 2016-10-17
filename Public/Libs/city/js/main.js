@@ -10,9 +10,9 @@ $(function () {
     var $citypicker2 = $('#city-picker2');
 
     $citypicker2.citypicker({
-        province: '江苏省',
-        city: '常州市',
-        district: '溧阳市'
+        province: '福建省',
+        city: '莆田市',
+        district: '城厢区'
     });
 
     var $citypicker3 = $('#city-picker3');
@@ -24,6 +24,7 @@ $(function () {
     $('#destroy').click(function () {
         $citypicker3.citypicker('destroy');
     });
+
     //
     //$('#distpicker1').distpicker();
     //

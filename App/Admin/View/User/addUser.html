@@ -11,12 +11,12 @@
 </block>
 <block name="body">
     <div class="result-content">
-        <form action="__CONTROLLER__/addUser" method="post" id="myform" name="myform" enctype="multipart/form-data">
+        <form action="__CONTROLLER__/addUser" method="post" id="myform" name="myform" enctype="multipart/form-data" onsubmit="return checkInfo()">
             <table class="insert-tab" width="100%">
                 <tbody><tr>
                     <th width="120"><i class="require-red">*</i>身份：</th>
                     <td>
-                        <select name="userRole" id="catid" class="required common-text">
+                        <select name="roles_num" id="userRole" class="required common-text">
                             <option value="0">请选择</option>
                             <volist name="userRole" id="user">
                                 <option value="{$key}">{$user}</option>
@@ -28,6 +28,7 @@
                     <th><i class="require-red">*</i>父ID：</th>
                     <td>
                         <input class="common-text required" id="pid" name="pid" size="30" value="" type="text">
+                        <input class="btn btn4 mr10" value="查找" type="button" onclick="findUser()">
                     </td>
                 </tr>
                 <tr>
@@ -42,7 +43,11 @@
                 </tr>
                 <tr>
                     <th><i class="require-red">*</i>密码：</th>
-                    <td><input class="common-text" name="pwd" size="30" value="" type="text"></td>
+                    <td><input class="common-text" name="pwd" size="30" value="" type="password"></td>
+                </tr>
+                <tr>
+                    <th><i class="require-red">*</i>确认密码：</th>
+                    <td><input class="common-text" name="repwd" size="30" value="" type="password"></td>
                 </tr>
                 <tr>
                     <th>邮箱：</th>
@@ -54,7 +59,7 @@
                         <div id="distpicker" class="form-inline">
                             <div class="form-group">
                                 <div style="position: relative;">
-                                    <input id="city-picker3" class="form-control common-text" readonly type="text" value="江苏省/常州市/溧阳市" data-toggle="city-picker" style="width:400px;" name="area">
+                                    <input id="city-picker3" class="form-control common-text" readonly type="text" value="" data-toggle="city-picker" style="width:400px;" name="area">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -69,14 +74,10 @@
                     <td><input name="face" id="face" type="file"></td>
                 </tr>
                 <tr>
-                    <th>内容：</th>
-                    <td><textarea name="content" class="common-textarea" id="content" cols="30" style="width: 98%;" rows="10"></textarea></td>
-                </tr>
-                <tr>
                     <th></th>
                     <td>
                         <input class="btn btn-primary btn6 mr10" value="提交" type="submit">
-                        <input class="btn btn6" onclick="history.go(-1)" value="返回" type="button">
+                        <input class="btn btn6" onclick="window.location.href='__CONTROOLER__/index'" value="返回" type="button">
                     </td>
                 </tr>
                 </tbody></table>
@@ -85,8 +86,69 @@
 </block>
 
 <block name="javascript">
-    <script src="__LIBS__/city/js/jquery.js"></script>
     <script src="__LIBS__/city/js/city-picker.data.js"></script>
     <script src="__LIBS__/city/js/city-picker.js"></script>
     <script src="__LIBS__/city/js/main.js"></script>
+    <script>
+        function checkInfo(){
+            if($("#userRole").val() == 0 ){
+                tip('请选择身份角色！','danger',2000);
+                return false;
+            }
+            if($("input[name='pid']").val().length == 0){
+                tip('请设置父类id','danger',2000);
+                return false;
+            }
+            if(isNaN($("input[name='pid']").val())){
+                tip("请输入父id为整数",'danger','2000');
+                return false;
+            }
+            if($("input[name='name']").val() == ''){
+                tip('请填写名字','danger',2000);
+                return false;
+            }
+            if($("input[name='mobile']").val() == ''){
+                tip('请填写手机号','danger',2000);
+                return false;
+            }
+            if($("input[name='mobile']").val().length != 11){
+                tip('手机号位数有错！','danger',2000);
+                return false;
+            }
+            if($("input[name='pwd']").val() == ''){
+                tip('请设置密码','danger',2000);
+                return false;
+            }
+            if($("input[name='pwd']").val() != $("input[name='repwd']").val()){
+                tip('两次密码不一致！','danger',2000);
+                return false;
+            }
+            return true;
+        }
+
+        function findUser(){
+            $("#myModal").modal('show');
+            $("#myModal .modal-title").html('查找用户');
+            var html = '<input class="common-text" placeholder="输入用户名或手机号" name="keyword" value="" size="30" type="text">'+
+                    '<input class="btn btn-primary btn2" onclick="sureFindUser()" value="查询" type="button" style="margin-left: 10px;">';
+            $("#myModal .modal-body").html(html);
+        }
+
+        function sureFindUser(){
+            var url = "__CONTROLLER__/findUser";
+            var keyword = $("input[name='keyword']").val();
+            if(keyword == ''){
+                tip('请先输入进行查询','danger',2000);
+                return false;
+            }
+            $.post(url,{keyword:keyword},function(data){
+                if(data.status != 200){
+                    tip(data.msg,'danger',2000);
+                }else{
+                    $("#myModal .modal-body").html(data.msg);
+                }
+            },'json');
+        }
+
+    </script>
 </block>

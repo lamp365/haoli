@@ -32,6 +32,7 @@
         <form name="myform" id="myform" method="post">
             <div class="result-title">
                 <div class="result-list">
+                    成员(<font color="red">{$count}</font>)人&nbsp;&nbsp;
                     <a href="{:U('User/addUser')}"><i class="icon-font"></i>新增成员</a>
                     <a id="batchDel" href="javascript:void(0)"><i class="icon-font"></i>批量删除</a>
                 </div>
@@ -44,7 +45,6 @@
                     <table class="result-tab" width="100%">
                         <tr>
                             <th class="tc" width="5%"><input class="allChoose" name="" type="checkbox"></th>
-                            <th>排序</th>
                             <th>ID</th>
                             <th>姓名</th>
                             <th>邮箱</th>
@@ -56,30 +56,33 @@
                             <th>最后时间</th>
                             <th>操作</th>
                         </tr>
-                        <tr>
-                            <td class="tc"><input name="id[]" value="59" type="checkbox"></td>
-                            <td>
-                                <input name="ids[]" value="59" type="hidden">
-                                <input class="common-input sort-input" name="ord[]" value="0" type="text">
-                            </td>
-                            <td>59</td>
-                            <td title="发哥经典"><a target="_blank" href="#" title="发哥经典">发哥经典</a> …
-                            </td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>2</td>
-                            <td>admin</td>
-                            <td>2014-03-15 21:11:01</td>
-                            <td>2014-03-15 21:11:01</td>
-                            <td></td>
-                            <td>
-                                <a class="link-update" href="#">修改</a>
-                                <a class="link-del" href="#">删除</a>
-                            </td>
-                        </tr>
+
+                        <volist name="userData" id="user">
+                            <tr>
+                                <td class="tc"><input name="id[]" value="{$user['id']}" type="checkbox"></td>
+                                <td>
+                                    <input name="ids[]" value="{$user['id']}" type="hidden">
+                                    {$user['id']}
+                                </td>
+                                <td>{$user['name']}</td>
+                                <td>{:checkIsEmail($user['email'])}</td>
+                                <td>{$user['mobile']}</td>
+                                <td>{$userRole[$user['roles_num']]}</td>
+                                <td>{$user['area']}</td>
+                                <td>{$user['go_hk_num']}</td>
+                                <td>{$user['createtime']|date="Y-m-d",###}</td>
+                                <td>{$user['lasttime']|date="Y-m-d",###}</td>
+                                <td>
+                                    <a class="link-update" href="#">修改</a>
+                                    <a class="link-del" href="#">删除</a>
+                                </td>
+                            </tr>
+
+                        </volist>
+
 
                     </table>
-                    <div class="list-page"> 2 条 1/1 页</div>
+                    <div class="list-page"> {$showpage}</div>
                 </if>
             </div>
         </form>
