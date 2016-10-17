@@ -72,6 +72,44 @@ class UserController extends Controller {
         echo showAjax($html);
     }
 
+    function showUser(){
+        $user = $sonUser = array();
+        if(I('post.keyword')){
+            if(is_int(I("post.keyword"))){
+                $where['mobile'] = I("post.keyword");
+            }else{
+                $where['name'] = I("post.keyword");
+            }
+            $user = M('user')->where($where)->find();
+
+        }else{
+            $user = M('user')->order("id asc")->find();
+        }
+        if(!empty($user)){
+            $sonUser  = M('user')->where(array('pid'=>$user['id']))->select();
+        }
+
+        
+        if(I('get.id')){   //属于ajax请求
+            $ajaxSonUser  = M('user')->where(array('pid'=>I('get.id')))->select();
+            $geshu = I('get.geshu')+1;
+            if(empty($ajaxSonUser)){
+                die(showAjax('没有下一级了','error'));
+            }else{
+                $html = '<p class="mt10 parentElement">';
+                foreach($ajaxSonUser as $row){
+                    $html .= "{$row['name']}<i data-id='{$row['id']}' data-geshu='{$geshu}' class='icon-add kaizhan'></i>";
+                }
+                $html .="</p>";
+                die(showAjax($html));
+            }
+        }
+
+        $this->assign('user',$user);
+        $this->assign('sonUser',$sonUser);
+        $this->display();
+    }
+
     function piliangAddUser(){
         $pid = I('get.pid');
         if(empty($pid)){

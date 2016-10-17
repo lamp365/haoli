@@ -1,0 +1,75 @@
+<extend name="Public/base"/>
+
+<block name="title">
+    <i class="icon-font"></i><a href="__MODULE__">首页</a><span class="crumb-step">&gt;</span><span class="crumb-name">查看用户</span>
+</block>
+<block name="body">
+    <div class="search-wrap">
+        <div class="search-content">
+            <form action="__CONTROLLER__/showUser" method="post">
+                <table class="search-tab" style="margin-left: 20px;">
+                    <tr>
+                        <th width="70">用户查询:</th>
+                        <td><input class="common-text" placeholder="输入用户名或者手机号" name="keyword" value="" id="" type="text"></td>
+                        <td><input class="btn btn-primary btn2" name="sub" value="查询" type="submit"></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+    <div class="result-wrap">
+
+            <p class="mt10">{$user['name']}<i data-id="{$user['id']}" data-geshu="1" class="icon-shou kaizhan"></i></p>
+            <p class="mt10 parentElement">
+                <volist name="sonUser" id="row">
+                    {$row['name']}<i data-id="{$row['id']}" data-geshu="2" class="icon-add kaizhan"></i>
+                </volist>
+            </p>
+
+
+    </div>
+
+</block>
+
+<block name="javascript">
+<script>
+    $(document).delegate(".kaizhan","click",function(){
+        var id = $(this).data('id');
+        var geshu = $(this).data('geshu');
+        if($(this).hasClass('icon-shou')){  //删除下面所有节点
+            removeNextElement(geshu);
+            $(this).removeClass("icon-shou");
+            $(this).addClass("icon-add");
+
+        }else{   //请求新的节点
+            $(this).closest(".parentElement").find(".kaizhan").each(function(){
+                if($(this).hasClass("icon-shou")){
+                    $(this).removeClass("icon-shou");
+                    $(this).addClass("icon-add");
+                }
+            });
+            $(this).removeClass('icon-add');
+            $(this).addClass('icon-shou');
+            var url = "__CONTROLLER__/showUser/id/"+ id +"/geshu/"+geshu;
+            tip('正在处理中！');
+            $.getJSON(url,function(data){
+                if(data.status != 200){
+                    tip(data.msg,'error','200');
+                }else{
+                    //清楚下面所有的节点
+                    removeNextElement(geshu);
+                    $("p:last").after(data.msg);
+                    tip_close();
+                }
+            })
+        }
+    })
+
+    function removeNextElement(geshu){
+        var length = $(".result-wrap p").length;
+        for(var i = length-1;i>=geshu; i--){
+            $(".result-wrap p").eq(i).remove();
+        }
+    }
+</script>
+</block>

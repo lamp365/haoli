@@ -21,7 +21,7 @@
                             </select>
                         </td>
                         <th width="70">用户查询:</th>
-                        <td><input class="common-text" placeholder="输入用户名" name="keyword" value="" id="" type="text"></td>
+                        <td><input class="common-text" placeholder="输入用户名或手机号" name="keyword" value="" id="" type="text"></td>
                         <td><input class="btn btn-primary btn2" name="sub" value="查询" type="submit"></td>
                     </tr>
                 </table>
@@ -35,6 +35,7 @@
                     成员(<font color="red">{$count}</font>)人&nbsp;&nbsp;
                     <a href="{:U('User/addUser')}"><i class="icon-font"></i>新增成员</a>
                     <a id="batchDel" href="javascript:void(0)"><i class="icon-font"></i>批量删除</a>
+                    <a id="updateOrd" href="{:U('User/showUser')}"><i class="icon-font"></i>查看用户</a>
                 </div>
             </div>
             <div class="result-content">

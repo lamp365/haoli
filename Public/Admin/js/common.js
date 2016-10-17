@@ -3,7 +3,6 @@
  */
 function tip(msg,type,time){
     type = type=='' ? 'success' : type;
-    type = type=='' ? '' : type;
     var div = $("#poptip");
     var content =$("#poptip_content");
     if(div.length<=0){

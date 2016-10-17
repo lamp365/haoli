@@ -27,6 +27,7 @@ article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{di
 .mt5{margin-top:5px;}
 .mr5{margin-right:5px;}
 .mt10{margin-top:10px;}
+.mt15{margin-top:15px;}
 .ml5{margin-left:5px;}
 .ml10{margin-left:10px;}
 .mr10{margin-right:10px;}
@@ -160,4 +161,24 @@ textarea:focus,input[type="text"]:focus,input[type="password"]:focus,input[type=
     color: rgb(255, 255, 255);
     background-color: #f59f25;
     box-shadow: 0 1px 10px rgba(0, 0, 0, 2.2);
+}
+.icon-add{
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+    background: url(../images/bg_icon.png) no-repeat 0 0;
+    margin-left: 3px;
+    margin-right: 20px;
+    cursor: pointer;
+}
+.icon-shou{
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+    background: url(../images/bg_icon.png) no-repeat -26px 0;
+    margin-left: 3px;
+    margin-right: 20px;
+    cursor: pointer;
 }
