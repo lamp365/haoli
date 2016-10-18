@@ -182,3 +182,22 @@ textarea:focus,input[type="text"]:focus,input[type="password"]:focus,input[type=
     margin-right: 20px;
     cursor: pointer;
 }
+.show_name{
+    position: relative;
+    cursor: pointer;
+}
+.show_info{
+    position: absolute;
+    left:-14px;
+    top:20px;
+    z-index:10;
+    width:90px;
+    height:90px;
+    padding:2px;
+    border:1px solid #e5e5e5;
+    background: #ffffff;
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.7);
+    border-radius: 3px;
+    display: none;
+    font-size:10px;
+}

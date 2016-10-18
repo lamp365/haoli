@@ -85,7 +85,7 @@
 
                             </select>
                         </td>
-                        <th width="70">用户查询:</th>
+                        <th width="110" style="text-align: right">用户查询:</th>
                         <td><input class="common-text" placeholder="输入用户名或手机号" name="keyword" value="" id="" type="text"></td>
                         <td><input class="btn btn-primary btn2" name="sub" value="查询" type="submit"></td>
                     </tr>
@@ -94,7 +94,7 @@
         </div>
     </div>
     <div class="result-wrap">
-        <form name="myform" id="myform" method="post">
+        <form name="myform" id="myform" method="post" action="/Admin/User/deleteUser">
             <div class="result-title">
                 <div class="result-list">
                     成员(<font color="red"><?php echo ($count); ?></font>)人&nbsp;&nbsp;
@@ -137,8 +137,8 @@
                                 <td><?php echo (date("Y-m-d",$user['createtime'])); ?></td>
                                 <td><?php echo (date("Y-m-d",$user['lasttime'])); ?></td>
                                 <td>
-                                    <a class="link-update" href="#">修改</a>
-                                    <a class="link-del" href="#">删除</a>
+                                    <a class="link-update" href="/Admin/User/editUser/id/<?php echo ($user['id']); ?>">修改</a>
+                                    <a class="link-del" href="/Admin/User/deleteUser/id/<?php echo ($user['id']); ?>" onclick="confirm('请慎重！确定要删除么？')">删除</a>
                                 </td>
                             </tr><?php endforeach; endif; else: echo "" ;endif; ?>
 
@@ -177,6 +177,28 @@
 <script src="/Public/Libs/bootstrap/js/jquery.js"></script>
 <script src="/Public/Libs/bootstrap/js/bootstrap.min.js"></script>
 <script src="/Public/Admin/js/common.js"></script>
- 
+
+    <script>
+        $(".allChoose").click(function(){
+            isCheck = this.checked;
+            $("input[name='id[]']").each(function(){
+                this.checked = isCheck;
+            })
+        })
+        $("#batchDel").click(function(){
+            var num =0;
+            $("input[name='id[]']").each(function(){
+                if(this.checked){
+                    num ++;
+                }
+            })
+            if(num == 0){
+                tip('对不起，请选则用户','danger',2000);
+                return;
+            }
+            $("#myform").submit();
+        })
+    </script>
+
 </body>
 </html>

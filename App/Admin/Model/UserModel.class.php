@@ -37,13 +37,13 @@ class UserModel extends Model {
      */
     /* 自动验证 */
     protected $_validate = array(
-        array('mobile', '', '手机号已经注册过！', self::VALUE_VALIDATE, 'unique', self::MODEL_INSERT),
-        array('email', '', '该邮箱已经注册过！', self::VALUE_VALIDATE, 'unique', self::MODEL_INSERT),
-        array('pid', 'number', '父id不对必须是数字！', self::VALUE_VALIDATE, '', self::MODEL_INSERT),
+        array('mobile', '', '手机号已经注册过！', self::VALUE_VALIDATE, 'unique', self::MODEL_BOTH),
+        array('email', '', '该邮箱已经注册过！', self::VALUE_VALIDATE, 'unique', self::MODEL_BOTH),
+        array('pid', 'number', '父id不对必须是数字！', self::VALUE_VALIDATE, '', self::MODEL_BOTH),
         array('pwd', 'require', '没有填写密码！', self::EXISTS_VALIDATE, '', self::MODEL_INSERT),
         array('repwd', 'pwd', '重复密码不正确！', self::EXISTS_VALIDATE, 'confirm', self::MODEL_INSERT),
-        array('mobile','11','手机号码位数不对！', self::EXISTS_VALIDATE, 'length', self::MODEL_INSERT),
-        array('email', 'email', '邮箱格式不正确！',self::VALUE_VALIDATE, '', self::MODEL_INSERT)
+        array('mobile','11','手机号码位数不对！', self::EXISTS_VALIDATE, 'length', self::MODEL_BOTH),
+        array('email', 'email', '邮箱格式不正确！',self::VALUE_VALIDATE, '', self::MODEL_BOTH)
     );
 
     /* 自动完成 */
@@ -51,7 +51,7 @@ class UserModel extends Model {
         array('pwd', 'encrypt', self::MODEL_INSERT, 'callback'),
         array('createtime', 'nowTime', self::MODEL_INSERT, 'callback'),
         array('lasttime', 'nowTime', self::MODEL_INSERT, 'callback'),
-        array('email', 'checkEmail', self::MODEL_INSERT, 'callback')
+        array('email', 'checkEmail', self::MODEL_BOTH, 'callback')
     );
 
     /* 给密码加密 */

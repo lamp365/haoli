@@ -37,6 +37,47 @@ class UserController extends Controller {
         }
     }
 
+    public function editUser()
+    {
+        if(IS_POST){
+            if(empty(I('post.id'))){
+                $this->error('对不起，参数有误!');
+            }
+            $user = D('user');
+            if($info = $user->create()) {
+                if($user->save()) {   //数组中有id,则会自动提取，没有的话要手动写where条件
+                    $this->success('修改成功！',U("User/index"));
+                } else {
+                    $this->error('修改失败！');
+                }
+            } else {
+                $msg = $user->getError();
+                $this->error($msg);
+            }
+        }else{
+            $id = I('get.id');
+            $user = M('user')->find($id);
+            $userRole = C('userRole');
+            $this->assign('userRole',$userRole);
+            $this->assign('userInfo',$user);
+            $this->display();
+        }
+    }
+
+    public function deleteUser(){
+        $id = $_REQUEST['id'];
+        if(is_array($id)){
+            if(empty($id)){
+                $this->error('对不起，你没有选择要删除的用户');
+            }
+            foreach($id as $val){
+                $res = M('user')->delete($val);
+            }
+        }else{
+            $res = M('user')->delete($id);
+        }
+        $this->success("删除成功！");
+    }
     public function findUser(){
         $keyword = I('post.keyword');
         if(is_int($keyword)){

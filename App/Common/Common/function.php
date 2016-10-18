@@ -55,7 +55,7 @@ function md5Pwd($pwd){
 }
 
 function checkIsEmail($email){
-    if(strpos('@',$email)){
+    if(strpos($email,'@')){
         return $email;
     }else{
         return '';
