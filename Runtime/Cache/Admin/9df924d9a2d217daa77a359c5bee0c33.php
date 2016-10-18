@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>『<?php echo C('webName');?>』后台管理</title>
+    <link rel="stylesheet" type="text/css" href="/Public/Libs/bootstrap/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="/Public/Admin/css/common.css"/>
     <link rel="stylesheet" type="text/css" href="/Public/Admin/css/main.css"/>
     <script type="text/javascript" src="/Public/Admin/js/libs/modernizr.min.js"></script>
@@ -27,7 +28,7 @@
         </div>
     </div>
 </div>
-<div class="container clearfix">
+<div class="clearfix">
 
     <div class="sidebar-wrap">
     <div class="sidebar-title">
@@ -123,6 +124,29 @@
     </div>
     <!--/main-->
 </div>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 class="modal-title" id="myModalLabel"> </h3>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" class="modal_suer" style="display: none">确定</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<script src="/Public/Libs/bootstrap/js/jquery.js"></script>
+<script src="/Public/Libs/bootstrap/js/bootstrap.min.js"></script>
+<script src="/Public/Admin/js/common.js"></script>
  
 </body>
 </html>

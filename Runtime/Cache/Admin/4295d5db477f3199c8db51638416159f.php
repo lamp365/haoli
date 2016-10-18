@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>『<?php echo C('webName');?>』后台管理</title>
+    <link rel="stylesheet" type="text/css" href="/Public/Libs/bootstrap/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="/Public/Admin/css/common.css"/>
     <link rel="stylesheet" type="text/css" href="/Public/Admin/css/main.css"/>
     <script type="text/javascript" src="/Public/Admin/js/libs/modernizr.min.js"></script>
@@ -27,7 +28,7 @@
         </div>
     </div>
 </div>
-<div class="container clearfix">
+<div class="clearfix">
 
     <div class="sidebar-wrap">
     <div class="sidebar-title">
@@ -84,8 +85,8 @@
 
                             </select>
                         </td>
-                        <th width="70">关键字:</th>
-                        <td><input class="common-text" placeholder="输入用户名" name="keyword" value="" id="" type="text"></td>
+                        <th width="70">用户查询:</th>
+                        <td><input class="common-text" placeholder="输入用户名或手机号" name="keyword" value="" id="" type="text"></td>
                         <td><input class="btn btn-primary btn2" name="sub" value="查询" type="submit"></td>
                     </tr>
                 </table>
@@ -96,8 +97,10 @@
         <form name="myform" id="myform" method="post">
             <div class="result-title">
                 <div class="result-list">
+                    成员(<font color="red"><?php echo ($count); ?></font>)人&nbsp;&nbsp;
                     <a href="<?php echo U('User/addUser');?>"><i class="icon-font"></i>新增成员</a>
                     <a id="batchDel" href="javascript:void(0)"><i class="icon-font"></i>批量删除</a>
+                    <a id="updateOrd" href="<?php echo U('User/showUser');?>"><i class="icon-font"></i>查看用户</a>
                 </div>
             </div>
             <div class="result-content">
@@ -107,7 +110,6 @@
                     <table class="result-tab" width="100%">
                         <tr>
                             <th class="tc" width="5%"><input class="allChoose" name="" type="checkbox"></th>
-                            <th>排序</th>
                             <th>ID</th>
                             <th>姓名</th>
                             <th>邮箱</th>
@@ -119,30 +121,30 @@
                             <th>最后时间</th>
                             <th>操作</th>
                         </tr>
-                        <tr>
-                            <td class="tc"><input name="id[]" value="59" type="checkbox"></td>
-                            <td>
-                                <input name="ids[]" value="59" type="hidden">
-                                <input class="common-input sort-input" name="ord[]" value="0" type="text">
-                            </td>
-                            <td>59</td>
-                            <td title="发哥经典"><a target="_blank" href="#" title="发哥经典">发哥经典</a> …
-                            </td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>2</td>
-                            <td>admin</td>
-                            <td>2014-03-15 21:11:01</td>
-                            <td>2014-03-15 21:11:01</td>
-                            <td></td>
-                            <td>
-                                <a class="link-update" href="#">修改</a>
-                                <a class="link-del" href="#">删除</a>
-                            </td>
-                        </tr>
+
+                        <?php if(is_array($userData)): $i = 0; $__LIST__ = $userData;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$user): $mod = ($i % 2 );++$i;?><tr>
+                                <td class="tc"><input name="id[]" value="<?php echo ($user['id']); ?>" type="checkbox"></td>
+                                <td>
+                                    <input name="ids[]" value="<?php echo ($user['id']); ?>" type="hidden">
+                                    <?php echo ($user['id']); ?>
+                                </td>
+                                <td><?php echo ($user['name']); ?></td>
+                                <td><?php echo checkIsEmail($user['email']);?></td>
+                                <td><?php echo ($user['mobile']); ?></td>
+                                <td><?php echo ($userRole[$user['roles_num']]); ?></td>
+                                <td><?php echo ($user['area']); ?></td>
+                                <td><?php echo ($user['go_hk_num']); ?></td>
+                                <td><?php echo (date("Y-m-d",$user['createtime'])); ?></td>
+                                <td><?php echo (date("Y-m-d",$user['lasttime'])); ?></td>
+                                <td>
+                                    <a class="link-update" href="#">修改</a>
+                                    <a class="link-del" href="#">删除</a>
+                                </td>
+                            </tr><?php endforeach; endif; else: echo "" ;endif; ?>
+
 
                     </table>
-                    <div class="list-page"> 2 条 1/1 页</div><?php endif; ?>
+                    <div class="list-page"> <?php echo ($showpage); ?></div><?php endif; ?>
             </div>
         </form>
     </div>
@@ -152,6 +154,29 @@
     </div>
     <!--/main-->
 </div>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 class="modal-title" id="myModalLabel"> </h3>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" class="modal_suer" style="display: none">确定</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<script src="/Public/Libs/bootstrap/js/jquery.js"></script>
+<script src="/Public/Libs/bootstrap/js/bootstrap.min.js"></script>
+<script src="/Public/Admin/js/common.js"></script>
  
 </body>
 </html>
