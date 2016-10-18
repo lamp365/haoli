@@ -19,10 +19,10 @@
     </div>
     <div class="result-wrap">
 
-            <p class="mt10">{$user['name']}<i data-id="{$user['id']}" data-geshu="1" class="icon-shou kaizhan"></i></p>
+            <p class="mt10"><span style="font-weight: bolder;color: red">{$user['name']}</span><i data-id="{$user['id']}" data-geshu="1" class="icon-shou kaizhan"></i></p>
             <p class="mt10 parentElement">
                 <volist name="sonUser" id="row">
-                    {$row['name']}<i data-id="{$row['id']}" data-geshu="2" class="icon-add kaizhan"></i>
+                    <span>{$row['name']}</span><i data-id="{$row['id']}" data-geshu="2" class="icon-add kaizhan"></i>
                 </volist>
             </p>
 
@@ -37,15 +37,18 @@
         var id = $(this).data('id');
         var geshu = $(this).data('geshu');
         if($(this).hasClass('icon-shou')){  //删除下面所有节点
+            $(this).prev().css({"font-weight":"normal","color":"#000000"});
             removeNextElement(geshu);
             $(this).removeClass("icon-shou");
             $(this).addClass("icon-add");
 
         }else{   //请求新的节点
+            $(this).prev().css({"font-weight":"bolder","color":"red"});
             $(this).closest(".parentElement").find(".kaizhan").each(function(){
                 if($(this).hasClass("icon-shou")){
                     $(this).removeClass("icon-shou");
                     $(this).addClass("icon-add");
+                    $(this).prev().css({"font-weight":"normal","color":"#000000"});
                 }
             });
             $(this).removeClass('icon-add');

@@ -98,7 +98,7 @@ class UserController extends Controller {
             }else{
                 $html = '<p class="mt10 parentElement">';
                 foreach($ajaxSonUser as $row){
-                    $html .= "{$row['name']}<i data-id='{$row['id']}' data-geshu='{$geshu}' class='icon-add kaizhan'></i>";
+                    $html .= "<span>{$row['name']}</span><i data-id='{$row['id']}' data-geshu='{$geshu}' class='icon-add kaizhan'></i>";
                 }
                 $html .="</p>";
                 die(showAjax($html));
