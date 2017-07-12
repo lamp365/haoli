@@ -63,33 +63,18 @@ function create_url($module, $params = array())
     if ( $rewrite == 1 ){
         switch ( $module ){
             case 'mobile':
-                $seo_url = array(
-                    'public'=>'public',
-                    'shop'=>'shop',
-                    'shopwap'=>'shopwap',
-                );
-                $url = false;
-                foreach( $seo_url as $key=>$value ){
-                    if ( $key == $params['name'] ){
-                        $url = true;
-                    }
-                }
-                if ( $url ){
-                    if(empty($params['op']))
-                        $return_url =  WEBSITE_ROOT.$params['name'].'/'.$params['do'].'.html';
-                    else
-                        $return_url =  WEBSITE_ROOT.$params['name'].'/'.$params['do'].'/'.$params['op'].'.html';
+                if($params['name'] == 'home')
+                    $return_url =  WEBSITE_ROOT.$params['do'].$params['op'].'.html';
+                else
+                    $return_url =  WEBSITE_ROOT.$params['name'].'/'.$params['do'].'/'.$params['op'].'.html';
 
-                    //多余的参数作为？传参
-                    unset($params['mod']); unset($params['name']);
-                    unset($params['do']);  unset($params['op']);
-                    $queryString    = empty($params) ? '' : http_build_query($params,'','&');
-                    !empty($queryString) && $return_url .= "?".$queryString;
-                    //多余参数最后是 http://dev-cbd.com/seller/product/goodstype.html?act=ss  暂时先这样
-                    return $return_url;
-                }else{
-                    return WEBSITE_ROOT.'index.php?mod=' . $module . (empty($do) ? '' : '&do=' . $do) . '&' . $queryString;
-                }
+                //多余的参数作为？传参
+                unset($params['mod']); unset($params['name']);
+                unset($params['do']);  unset($params['op']);
+                $queryString    = empty($params) ? '' : http_build_query($params,'','&');
+                !empty($queryString) && $return_url .= "?".$queryString;
+                //多余参数最后是 http://dev-cbd.com/seller/product/goodstype.html?act=ss  暂时先这样
+                return $return_url;
                 break;
             default:
                 return WEBSITE_ROOT.'index.php?mod=' . $module . (empty($do) ? '' : '&do=' . $do) . '&' . $queryString;
