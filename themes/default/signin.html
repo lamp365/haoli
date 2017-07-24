@@ -1,0 +1,187 @@
+<!doctype html>
+
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+
+    <title><!--@php echo $seting['shop_title']; @--></title>
+
+    <meta name="keywords" content="<!--@php echo $seting['shop_keyword']; @-->" />
+
+    <meta name="description" content="<!--@php echo $seting['shop_description']; @-->" />
+
+    <script src="__RESOURCE__/script/jquery-1.11.0.js"></script>
+
+    <script src="__RESOURCE__/index/js/jquery.fullPage.min.js"></script>
+
+    <script src="__RESOURCE__/index/js/wow.min.js"></script>
+
+    <script src="__RESOURCE__/recouse/bootstrap3/js/bootstrap.min.js"></script>
+
+    <script src="__RESOURCE__/order/js/layer.js"></script>
+
+    <link href="__RESOURCE__/index/css/style.css" rel="stylesheet" type="text/css">
+
+    <link href="__RESOURCE__/index/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <link href="__RESOURCE__/index/css/animate.min.css" rel="stylesheet" type="text/css">
+    <link href="__RESOURCE__/recouse/bootstrap3/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+
+    <style>
+        .put_height{
+            height: 44px;
+        }
+        .login_right{
+            float: right;
+            width: 360px;
+            height: 460px;
+            margin-top: 200px;
+            border-left: 1px solid #83D5EB;
+        }
+        a:hover,a:active,a:visited{
+            text-decoration: none;
+            color: #0acffe;
+        }
+        a.cx_btn,a.cx_btn:active,a.cx_btn:visited{
+            color: #fff;
+        }
+        .Qrcode{
+            text-align: center;
+            background: url("__RESOURCE__/recouse/images/qr-img.png") no-repeat 40px 15px;
+            background-color: #ffffff;
+            padding: 20px;
+            width: 325px;
+            height: 355px;
+        }
+        .Qrcode canvas{
+            margin-top: 35px;
+        }
+    </style>
+</head>
+
+<body>
+
+<!--@php  include page('menu_nav');@-->
+
+
+<div id="dowebok">
+
+    <div class="section section1">
+
+        <div id="container">
+
+            <div class="s1_left">
+
+                <p>新会员注册</p>
+
+                <form class="form-horizontal" id="signin_form" style="width: 70%" method="post" action="<!--@php echo mobile_url('login',array('op'=>'signin')); @-->">
+                    <div class="form-group">
+                        <label for="qq_num" class="col-sm-3 control-label">会员QQ</label>
+                        <div class="col-sm-9">
+                            <input type="number" class="form-control put_height" id="qq_num" placeholder="请输入QQ号" name="mobile">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="pwd" class="col-sm-3 control-label">登录密码</label>
+                        <div class="col-sm-9">
+                            <input type="password" class="form-control put_height" id="pwd" placeholder="登录密码" name="pwd">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="repwd" class="col-sm-3 control-label">确认密码</label>
+                        <div class="col-sm-9">
+                            <input type="password" class="form-control put_height" id="repwd" placeholder="确认密码" name="repwd">
+                        </div>
+                    </div>
+                    <p style="margin-left: 110px;margin-top: 35px;">
+                        <input type="hidden" name="dosub" value="1">
+                        <a href="javascript:;" class="zc_btn" id="do_signin"><i class="fa fa-chevron-circle-right" style="font-size:24px; vertical-align:middle"></i> <b>用户注册</b></a>
+                    </p>
+                </form>
+
+            </div>
+
+            <div class="login_right">
+                <div style="margin-left: 90px;margin-top: 100px;">
+                    <p style="font-size: 28px;font-weight: bolder">&nbsp;&nbsp;已经是会员了</p>
+                    <p style="margin-top: 30px;">
+                        <a href="/" class="zc_btn"><i class="fa fa-chevron-circle-right" style="font-size:24px; vertical-align:middle"></i> <b>用户登录</b></a>
+                    </p>
+                    <p style="font-size: 22px;font-weight: bolder;margin-top: 45px;">&nbsp;&nbsp;使用第三方登录</p>
+                    <p>
+                        <a href="<!--@php echo mobile_url('thirdlogin',array('op'=>'login','oauth'=>'qq')); @-->" style="display: inline-block">
+                            <img src="__RESOURCE__/recouse/images/connect_qq.png" alt="" border="0" style="margin-left: 18px;cursor: pointer">
+                        </a>
+                        <a data-getsession="<!--@php echo mobile_url('qrcodelogin',array('op'=>'get_sessionid')); @-->"
+                           data-getcheck="<!--@php echo mobile_url('qrcodelogin',array('op'=>'checkLogin')); @-->"
+                           data-qrcode="<!--@php echo mobile_url('qrcodelogin',array('op'=>'index')); @-->"
+                           href="javascript:;" style="display: inline-block" onclick="showWeixinQrcode(this)">
+                            <img src="__RESOURCE__/recouse/images/connect_weixin.png" alt="" border="0" style="margin-left: 8px;cursor: pointer">
+                        </a>
+                    </p>
+                </div>
+            </div>
+
+            <div id="clear"></div>
+
+        </div>
+
+    </div>
+
+</div>
+<script type="text/javascript"	src="__RESOURCE__/script/jquery.qrcode.min.js"></script>
+<script src="__RESOURCE__/index/js/main.js"></script>
+
+<script>
+
+    $(function(){
+
+        $('#dowebok').fullpage({
+
+            scrollingSpeed:300,
+
+            loopBottom:true,
+
+            anchors: ['page1', 'page2', 'page3', 'page4','page5','page6'],
+
+            menu: '#menu',
+
+            resize:false,
+
+            scrollBar: true,
+
+            afterRender:function(){
+
+                wow = new WOW({
+
+                    animateClass: 'animated',
+
+                });
+
+                wow.init();
+
+            }
+
+        });
+
+        $("#do_signin").click(function(){
+            if($.trim($("#qq_num").val()) == ''){
+                layer.alert('会员QQ不能为空！',{icon: 5});
+                return false;
+            }
+            if($.trim($("#pwd").val()) == '' || $.trim($("#repwd").val()) == ''){
+                layer.alert('密码不能为空！',{icon: 5});
+                return false;
+            }
+            $("#signin_form").submit();
+        });
+    });
+
+</script>
+
+</body>
+
+</html>
+

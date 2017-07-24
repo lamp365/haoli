@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+
+    <title><!--@php echo $seting['shop_title']; @--></title>
+
+    <meta name="keywords" content="<!--@php echo $seting['shop_keyword']; @-->" />
+    <meta name="description" content="<!--@php echo $seting['shop_description']; @-->" />
+
+    <script src="__RESOURCE__/script/jquery-1.11.0.js"></script>
+    <script type="text/JavaScript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+    <link href="__RESOURCE__/recouse/bootstrap3/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <script src="__RESOURCE__/recouse/bootstrap3/js/bootstrap.min.js"></script>
+    <style>
+        .l_logo{
+            margin-top: 25px;
+            height: 155px;
+            text-align: center;
+        }
+        .l_logo img{
+            width: 155px;
+            height: 155px;
+            border-radius: 50%;
+        }
+        .l_line{
+            border-bottom: 1px solid #F0F0F0;
+            height: 5px;
+            margin-top: 30px;
+            margin-bottom: 35px;
+        }
+        .tips{
+            font-size: 16px;
+            font-weight: 400;
+        }
+        ul li{
+            color: #8B8989;
+        }
+    </style>
+</head>
+
+<body style="background: #ffffff;padding: 20px;">
+<div class="l_logo">
+    <img src="http://ugou.oss-cn-shanghai.aliyuncs.com/201707/2017072211445972ca2b457ac.png" alt="">
+</div>
+<div class="l_line"></div>
+
+<!--@php if($openid){ @-->
+<p class="tips">成功登陆 [<!--@php echo $seting['shop_title']; @-->]</p>
+<ul>
+    <li>你可绑定账户,方便直接用账户登陆</li>
+</ul>
+
+<div style="margin-top: 45px;text-align: center">
+    <a class="btn btn-info btn-lg btn-block" href="<!--@php echo mobile_url('member',array('op'=>'binduser')); @-->">立&nbsp;即&nbsp;绑&nbsp;定</a>
+    <a class="btn btn-default btn-lg btn-block" style="margin-top: 15px;" href="/">随&nbsp;处&nbsp;看&nbsp;看</a>
+</div>
+<!--@php }else{ @-->
+<p class="tips">登陆失败 [<!--@php echo $seting['shop_title']; @-->]</p>
+<ul>
+    <li>你可尝试重新扫码登陆</li>
+    <li>或者联系管理员反馈</li>
+</ul>
+
+<div style="margin-top: 40px;text-align: center">
+    <a href='/' class="btn btn-info btn-lg btn-block">返&nbsp;回&nbsp;首&nbsp;页</a>
+    <a href='/' class="btn btn-default btn-lg btn-block" style="margin-top: 15px;">随&nbsp;处&nbsp;看&nbsp;看</a>
+</div>
+<!--@php }@-->
+</body>
+</html>

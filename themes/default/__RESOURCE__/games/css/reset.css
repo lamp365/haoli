@@ -1,0 +1,27 @@
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+#login_btn{
+	float:right;
+	margin-left:20px;
+}
+#login_btn a{
+	text-align:center;
+	margin-top:15px;
+	margin-left:15px;
+	float:left;
+	display:block;
+	text-decoration:none;
+	color:#333;
+	width:60px;
+	height:30px;
+	line-height:30px;
+	background:#fff;
+	border-radius:3px;
+	font-size:14px;
+}

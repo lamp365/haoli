@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <title><!--@php echo $seting['shop_title']; @--></title>
+
+    <meta name="keywords" content="<!--@php echo $seting['shop_keyword']; @-->" />
+
+    <meta name="description" content="<!--@php echo $seting['shop_description']; @-->" />
+
+    <link href="__RESOURCE__/games/css/style.css" rel="stylesheet" type="text/css">
+    <link href="__RESOURCE__/games/css/tab.css" rel="stylesheet" type="text/css">
+    <link href="__RESOURCE__/games/css/reset.css" rel="stylesheet" type="text/css">
+    <link href="__RESOURCE__/games/css/style1.css" rel="stylesheet" type="text/css">
+
+    <link href="__RESOURCE__/index/css/style.css" rel="stylesheet" type="text/css">
+
+
+    <script src="__RESOURCE__/games/js/tab.js" type="text/javascript"></script>
+    <link href="__RESOURCE__/games/css/nyro.css" rel="stylesheet" type="text/css">
+    <link href="__RESOURCE__/games/css/thickbox.css" rel="stylesheet" type="text/css">
+    <script src="__RESOURCE__/script/jquery-1.11.0.js"></script>
+    <script src="__RESOURCE__/games/js/nyro.js" type="text/javascript"></script>
+    <script src="__RESOURCE__/games/js/thickbox.js" type="text/javascript"></script>
+    <script src="__RESOURCE__/games/js/woodyapp.js" type="text/javascript"></script>
+
+    <script src="__RESOURCE__/order/js/layer.js"></script>
+    <style>
+        .paycenter{
+            width: 100%;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 10px 0px;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body style="padding: 0px;margin: 0px;">
+
+
+
+    <div class="paycenter">
+        <div id="center" class="mt20">
+
+            <div class="wid960" >
+
+                <div class="tab">
+
+                    <ul>
+
+                        <li id="tow2" class="on" onclick='setTab("tow",2,2)'><img src="__RESOURCE__/games/images/sm.png" width="30" height="30" style="vertical-align:middle" /> 扫码支付</li>
+
+                        <li id="tow1" ><img src="__RESOURCE__/games/images/icon_bank.png" width="38" height="29" style="vertical-align:middle" /> 网银支付</li>
+
+                    </ul>
+
+                </div>
+
+                <div class="paylist">
+
+                    <div class="tabList" style="border: none">
+
+                        <div id="cont_tow_1" class="one">
+
+                            <ul>
+
+                                <li><input name="pid" type="radio" value="ICBC-NET"/><img src="__RESOURCE__/games/images/ICBC.png" width="144" height="44" /></li>
+
+                                <li><input name="pid" type="radio" value="CCB-NET" /><img src="__RESOURCE__/games/images/CCB.png" width="144" height="44" /></li>
+
+                                <li><input name="pid" type="radio" value="ABC-NET" /><img src="__RESOURCE__/games/images/ABC.png" width="144" height="44" /></li>
+
+                                <li><input name="pid" type="radio" value="BOCO-NET" /><img src="__RESOURCE__/games/images/BCOM.png" width="144" height="44" /></li>
+
+                                <li><input name="pid" type="radio" value="BOC-NET" /><img src="__RESOURCE__/games/images/BOC.png" width="144" height="44" /></li>
+
+                                <li><input name="pid" type="radio" value="POST-NET" /><img src="__RESOURCE__/games/images/PSBC.png" width="144" height="44" /></li>
+
+                                <li><input name="pid" type="radio" value="CMBCHINA-NET" /><img src="__RESOURCE__/games/images/CMB.png" width="144" height="44" /></li>
+
+                                <li><input name="pid" type="radio" value="CIB-NET" /><img src="__RESOURCE__/games/images/CIB.png" width="144" height="44" /></li>
+
+                                <li><input name="pid" type="radio" value="ECITIC-NET" /><img src="__RESOURCE__/games/images/ECITIC.png" width="144" height="44" /></li>
+
+                                <li><input name="pid" type="radio" value="CEB-NET" /><img src="__RESOURCE__/games/images/CEBB.png" width="144" height="44" /></li>
+
+                                <li><input name="pid" type="radio" value="CMBC-NET" /><img src="__RESOURCE__/games/images/CMBC.png" width="144" height="44" /></li>
+
+                                <li><input name="pid" type="radio" value="SHB-NET" /><img src="__RESOURCE__/games/images/SHB.png" width="144" height="44" /></li>
+
+                                <li><input name="pid" type="radio" value="SPDB-NET" /><img src="__RESOURCE__/games/images/SPDB.png" width="144" height="44" /></li>
+
+                                <li><input name="pid" type="radio" value="PAB-NET" /><img src="__RESOURCE__/games/images/SPABANK.png" width="144" height="44" /></li>
+
+                                <li><input name="pid" type="radio" value="HXB-NET" /><img src="__RESOURCE__/games/images/HXB.png" width="144" height="44" /></li>
+
+                                <li><input name="pid" type="radio" value="NBCB-NET" /><img src="__RESOURCE__/games/images/NBB.png" width="144" height="44" /></li>
+
+                                <li><input name="pid" type="radio" value="BCCB-NET" /><img src="__RESOURCE__/games/images/BOB.png" width="144" height="44" /></li>
+
+                                <li><input name="pid" type="radio" value="HZBANK-NET" /><img src="__RESOURCE__/games/images/HZB.png" width="144" height="44" /></li>
+
+                                <li><input name="pid" type="radio" value="GDB-NET" /><img src="__RESOURCE__/games/images/GDB-NET.png" width="144" height="44" /></li>
+
+                                <li><input name="pid" type="radio" value="HFB-NET" /><img src="__RESOURCE__/games/images/HFB-NET.png" width="144" height="44" /></li>
+
+                            </ul>
+
+                            <div style="clear: both"></div>
+
+                        </div>
+
+                        <div id="cont_tow_2" class="one block" style="min-height:80px;">
+
+                            <ul>
+
+                                <li style="width: 230px;"><input name="paytype" type="radio" value="ali" checked/><img src="__RESOURCE__/games/images/ALIPAY.jpg" width="144" height="44" onclick="choose_pay('ali')"/></li>
+
+                                <li style="width: 230px;"><input name="paytype" type="radio" value="weixin" /><img src="__RESOURCE__/games/images/WEIXIN.jpg" width="144" height="44" onclick="choose_pay('weixin')"/></li>
+                                <br/>
+                                <li style="width: 230px;"><input name="paytype" type="radio" value="qqrcode" /><img src="__RESOURCE__/games/images/qqrcode.jpg" width="144" height="44" onclick="choose_pay('qqrcode')" /></li>
+
+                                <li style="width: 230px;"><input name="paytype" type="radio" value="ten" /><img src="__RESOURCE__/games/images/TENPAY.jpg" width="144" height="44" onclick="choose_pay('ten')"/></li>
+
+                            </ul>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- end -->
+
+        </div>
+
+
+        <div class="main-nav" id="submit">
+
+            <input type="button" class="cd-signin"  style="margin-top: 0px;" value="完成购买" onclick="tobuy()">
+
+        </div>
+
+    </div>
+
+
+
+
+<script>
+
+    function choose_pay(type){
+        $("input[name='paytype']").each(function(){
+            if($(this).val() == type){
+                $(this).click();
+            }
+        })
+    }
+
+    function tobuy(){
+        var paytype = '';
+        $("input[name='paytype']").each(function(){
+            if(this.checked){
+                paytype = $(this).val();
+            }
+        });
+        var allType = {'ali':1,'weixin':1,'qqrcode':1,'ten':1};
+        var allType2 = {'qqrcode':1,'ten':1};
+        if(paytype == '' || !allType.hasOwnProperty(paytype)){
+            layer.alert('支付类型不对！',{icon: 5});
+            return '';
+        }
+        if(allType2.hasOwnProperty(paytype)){
+            layer.alert('该支付类型等待完善中！',{icon: 5});
+            return '';
+        }
+        var url = "<!--@php echo mobile_url('confirm',array('op'=>'topay','orderid'=>$orderid));@-->";
+        url = url +"&paytype="+paytype;
+        window.open(url);
+        layer.load();
+        $(".cd-signin").val('等待支付');
+        var check_url =  "<!--@php echo mobile_url('confirm',array('op'=>'check_order'));@-->";
+        var go_url    =  "<!--@php echo mobile_url('order',array('op'=>'index'));@-->";
+        var orderid   =  "<!--@php echo $orderid;@-->";
+        check_is_pay(check_url,go_url,orderid);
+    }
+
+</script>
+
+
+</body>
+
+</html>
+

@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <title><!--@php echo $seting['shop_title']; @--></title>
+
+    <meta name="keywords" content="<!--@php echo $seting['shop_keyword']; @-->" />
+
+    <meta name="description" content="<!--@php echo $seting['shop_description']; @-->" />
+
+    <link href="__RESOURCE__/games/css/style.css" rel="stylesheet" type="text/css">
+    <link href="__RESOURCE__/games/css/tab.css" rel="stylesheet" type="text/css">
+    <link href="__RESOURCE__/games/css/reset.css" rel="stylesheet" type="text/css">
+    <link href="__RESOURCE__/games/css/style1.css" rel="stylesheet" type="text/css">
+
+    <link href="__RESOURCE__/index/css/style.css" rel="stylesheet" type="text/css">
+
+    <script src="__RESOURCE__/games/js/tab.js" type="text/javascript"></script>
+    <link href="__RESOURCE__/games/css/nyro.css" rel="stylesheet" type="text/css">
+    <link href="__RESOURCE__/games/css/thickbox.css" rel="stylesheet" type="text/css">
+    <script src="__RESOURCE__/script/jquery-1.11.0.js"></script>
+    <script src="__RESOURCE__/games/js/nyro.js" type="text/javascript"></script>
+    <script src="__RESOURCE__/games/js/thickbox.js" type="text/javascript"></script>
+    <script src="__RESOURCE__/games/js/woodyapp.js" type="text/javascript"></script>
+    <script src="__RESOURCE__/order/js/layer.js"></script>
+</head>
+
+<body>
+
+<!--@php  include page('menu_nav');@-->
+
+<div style="height:100px;"></div>
+
+    <div class="x">
+
+        <div class="upper">
+
+            <img src="__RESOURCE__/games/images/zhifu_03.png"><label>平台咨询：</label>
+            <!--@php foreach($self_qq as $qq_num => $qq_src){ @-->
+            <a class="text_color kf btn" target="_blank" href="<!--@php echo $qq_src; @-->"><img src="__RESOURCE__/games/images/lianxi.png">联系商户</a>
+            <!--@php } @-->
+        </div>
+
+        <div class="lower">
+
+            <label>平台公告：</label><span><!--@php echo $seting['shop_gongao']; @--></span>
+
+        </div>
+
+    </div>
+
+    <div class="x" style="padding-bottom: 30px;">
+
+        <div class="step">
+
+            <span class="step_num">1</span><span class="step_notice">选择商品</span>
+
+        </div>
+
+        <div id="center" style="margin: 20px auto">
+
+            <div id="left_box">
+
+                <div id="left_shadow"></div>
+
+                <div class="title" style="padding-bottom: 0px;padding-top: 0px;margin-bottom: 12px;">商 户 信 息</div>
+
+                <p>平台名称：<!--@php echo $seting['shop_title']; @--></p>
+
+                <p>商品分类：自愿赞助系统</p>
+
+                <p>商品类型：数字卡密</p>
+
+                <p>发货类型：自动发货 </p>
+                <!--@php foreach($self_qq as $qq_num => $qq_src){ @-->
+                <p class="p1" style="margin-top: 12px;"><a target="blank" href="<!--@php echo $qq_src; @-->"><img src="__RESOURCE__/games/images/qq.png" width="24" height="26" /> 咨 询 商 家</a></p>
+                <!--@php } @-->
+
+
+            </div>
+
+            <div id="mid_box">
+
+                <p style="padding-top: 20px;">
+                    <span class="red">*</span> 商品名称：<span id="loading" style="">
+
+                    <select name="dishid" id="dishid" onchange="choose_dish(this)" style="max-width: 500px">
+                        <option value="">请选择商品</option>
+                        <!--@php foreach($allDish as $one_dish){ @-->
+                        <option value="<!--@php  echo $one_dish['id'];@-->"><!--@php  echo $one_dish['title'];@--></option>
+                        <!--@php } @-->
+                    </select>
+
+                    <div class="sm">
+
+                        <div class="sm_title">
+
+                            商品说明
+
+                        </div>
+
+                        <span id="remark">
+
+                        </span>
+
+                    </div>
+
+                </p>
+
+                <div class="pricebg">
+
+                    <p class="t2">单价 &nbsp;&nbsp;
+                        <font color="#ff6700" style="font-size:18px;">¥ <font size="+3">
+                        <b>
+                        <label id="price"></label>
+                        </b>
+                        </font></font>
+                    </p>
+
+                </div>
+
+                <div id="discountdetail"></div>
+
+                <table id="tab">
+
+                    <tr>
+                        <span>购买数量</span>&nbsp;&nbsp;&nbsp;
+
+                        <a href="javascript:void(0);" class="min"> - </a>
+
+                        <input class="text_box" name="quantity" type="text" onkeyup="changeTotal(this)" value="1" />
+
+                        <a href="javascript:void(0);" class="add"> + </a>
+
+                        <span class="green" id="goodInvent" style="padding-left: 10px;"></span>
+                        <span>(库存:<font id="total_num"></font>)</span>
+                    </tr>
+
+                </table>
+
+
+                <p style="height:15px;line-height:15px;margin-top: 12px;">
+
+                    <label>
+                    <span class="red">[提示]</span>交易成功后，系统会自动发放卡卷到您的订单中</label>
+
+                </p>
+
+                <p style="height:25px;line-height:25px;margin-bottom: 15px;">
+
+                    <label>
+                    <span class="red">[提示]</span>交易成功后如有异常(几率较少)，请提交支付交易编号，联系客服审核处理</label>
+                </p>
+
+            </div>
+
+            <!-- 手机支付 -->
+
+            <div id="ewm">
+                <style>
+                    .qrcode{position:absolute;margin-top:55px;margin-left: 20px;border:1px solid #ccc;background: #fff;}.qrcode .qr_title{background: #fafafa;padding:6px 10px;border-top: 1px solid #ccc;font-size:0.9em;text-align: center}
+                    .qrcode .qr_img{text-align:center;height:176px;background: url('__RESOURCE__/recouse/images/qr-img.png');background-size: 100% 100%;width: 130px;}
+                    .qrcode .qr_img canvas{margin-top: 23px;}
+                </style>
+                <div class="qrcode hidden-xs"><div class="qr_img">
+
+                </div><div class="qr_title">在手机上购买</div></div></div>
+
+        </div>
+
+        <div style="clear: both"></div>
+
+    </div>
+
+    <div class="x">
+
+        <div id="payinfo" style="text-align: center; font-size: 20px">
+
+            <div class="pinfo2">您应付总额为<span class="red tprice" style="font-size: 24px;font-weight: bolder">0.00</span>元<span class="bt">(人民币)</span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="x">
+
+        <div class="step">
+
+            <span class="step_num">2</span><span class="step_notice">选择支付方式</span>
+
+        </div>
+
+        <div id="center" class="mt20">
+
+            <div class="wid960" >
+
+                <div class="tab">
+
+                    <ul>
+
+                        <li id="tow2" class="on" onclick='setTab("tow",2,2)'><img src="__RESOURCE__/games/images/sm.png" width="30" height="30" style="vertical-align:middle" /> 扫码支付</li>
+
+                        <li id="tow1" ><img src="__RESOURCE__/games/images/icon_bank.png" width="38" height="29" style="vertical-align:middle" /> 网银支付</li>
+
+                    </ul>
+
+                </div>
+
+                <div class="paylist">
+
+                    <div class="tabList">
+
+                        <div id="cont_tow_1" class="one">
+
+                            <ul>
+
+                                <li><input name="pid" type="radio" value="ICBC-NET"/><img src="__RESOURCE__/games/images/ICBC.png" width="144" height="44" /></li>
+
+                                <li><input name="pid" type="radio" value="CCB-NET" /><img src="__RESOURCE__/games/images/CCB.png" width="144" height="44" /></li>
+
+                                <li><input name="pid" type="radio" value="ABC-NET" /><img src="__RESOURCE__/games/images/ABC.png" width="144" height="44" /></li>
+
+                                <li><input name="pid" type="radio" value="BOCO-NET" /><img src="__RESOURCE__/games/images/BCOM.png" width="144" height="44" /></li>
+
+                                <li><input name="pid" type="radio" value="BOC-NET" /><img src="__RESOURCE__/games/images/BOC.png" width="144" height="44" /></li>
+
+                                <li><input name="pid" type="radio" value="POST-NET" /><img src="__RESOURCE__/games/images/PSBC.png" width="144" height="44" /></li>
+
+                                <li><input name="pid" type="radio" value="CMBCHINA-NET" /><img src="__RESOURCE__/games/images/CMB.png" width="144" height="44" /></li>
+
+                                <li><input name="pid" type="radio" value="CIB-NET" /><img src="__RESOURCE__/games/images/CIB.png" width="144" height="44" /></li>
+
+                                <li><input name="pid" type="radio" value="ECITIC-NET" /><img src="__RESOURCE__/games/images/ECITIC.png" width="144" height="44" /></li>
+
+                                <li><input name="pid" type="radio" value="CEB-NET" /><img src="__RESOURCE__/games/images/CEBB.png" width="144" height="44" /></li>
+
+                                <li><input name="pid" type="radio" value="CMBC-NET" /><img src="__RESOURCE__/games/images/CMBC.png" width="144" height="44" /></li>
+
+                                <li><input name="pid" type="radio" value="SHB-NET" /><img src="__RESOURCE__/games/images/SHB.png" width="144" height="44" /></li>
+
+                                <li><input name="pid" type="radio" value="SPDB-NET" /><img src="__RESOURCE__/games/images/SPDB.png" width="144" height="44" /></li>
+
+                                <li><input name="pid" type="radio" value="PAB-NET" /><img src="__RESOURCE__/games/images/SPABANK.png" width="144" height="44" /></li>
+
+                                <li><input name="pid" type="radio" value="HXB-NET" /><img src="__RESOURCE__/games/images/HXB.png" width="144" height="44" /></li>
+
+                                <li><input name="pid" type="radio" value="NBCB-NET" /><img src="__RESOURCE__/games/images/NBB.png" width="144" height="44" /></li>
+
+                                <li><input name="pid" type="radio" value="BCCB-NET" /><img src="__RESOURCE__/games/images/BOB.png" width="144" height="44" /></li>
+
+                                <li><input name="pid" type="radio" value="HZBANK-NET" /><img src="__RESOURCE__/games/images/HZB.png" width="144" height="44" /></li>
+
+                                <li><input name="pid" type="radio" value="GDB-NET" /><img src="__RESOURCE__/games/images/GDB-NET.png" width="144" height="44" /></li>
+
+                                <li><input name="pid" type="radio" value="HFB-NET" /><img src="__RESOURCE__/games/images/HFB-NET.png" width="144" height="44" /></li>
+
+                            </ul>
+
+                            <div style="clear: both"></div>
+
+                        </div>
+
+                        <div id="cont_tow_2" class="one block" style="height:80px;">
+
+                            <ul>
+
+                                <li><input name="paytype" type="radio" value="ali" checked/><img src="__RESOURCE__/games/images/ALIPAY.jpg" width="144" height="44" onclick="choose_pay('ali')"/></li>
+
+                                <li><input name="paytype" type="radio" value="weixin" /><img src="__RESOURCE__/games/images/WEIXIN.jpg" width="144" height="44" onclick="choose_pay('weixin')"/></li>
+
+                                <li><input name="paytype" type="radio" value="qqrcode" /><img src="__RESOURCE__/games/images/qqrcode.jpg" width="144" height="44" onclick="choose_pay('qqrcode')" /></li>
+
+                                <li><input name="paytype" type="radio" value="ten" /><img src="__RESOURCE__/games/images/TENPAY.jpg" width="144" height="44" onclick="choose_pay('ten')"/></li>
+
+                            </ul>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- end -->
+
+        </div>
+
+
+        <div class="main-nav" id="submit">
+
+            <input type="button" class="cd-signin" value="立即购买" onclick="tobuy()">
+
+        </div>
+
+    </div>
+
+
+
+
+<!-- 底部 -->
+
+<p align="center" style="width:100%; background: #f6f6f6; height:100px; line-height:100px; font-size:12px;">Copyright © QT Network Company Ltd. All Rights Reserved. 2013-2017 <!--@php echo $seting['shop_title']; @--></p>
+
+<script type="text/javascript"	src="__RESOURCE__/script/jquery.qrcode.min.js"></script>
+
+<script>
+    var dish_json = '<!--@php echo $dish_json; @-->';
+
+    $(function(){
+        $("#menu_bg").slideDown('slow');
+        var qrcodeurl = "<!--@php echo mobile_url('games',array('op'=>'index')); @-->";
+        $(".qrcode .qr_img").qrcode({
+            width: 96, //宽度
+            height:96, //高度
+            text: qrcodeurl
+        });
+
+        $(".add").click(function(){
+            if($("#dishid").val() == 0)  return '';
+            var t=$(this).parent().find('input[class*=text_box]');
+            //库存
+            var total_num = parseInt($("#total_num").html());
+            if(parseInt(t.val()) >= total_num){
+                layer.alert('库存不足！',{icon: 5});
+                return '';
+            }
+
+            t.val(parseInt(t.val())+1);
+            var price = parseFloat($("#price").html()).toFixed(2);
+            var num   = parseInt(t.val());
+            $(".tprice").html(parseFloat(price*num).toFixed(2));
+        })
+
+
+
+        $(".min").click(function(){
+            if($("#dishid").val() == 0)  return '';
+            var t=$(this).parent().find('input[class*=text_box]');
+            //库存
+            var total_num = parseInt($("#total_num").html());
+
+            t.val(parseInt(t.val())-1);
+
+            if(parseInt(t.val()) <= 0){
+
+                t.val(1);
+
+            }
+            var price = parseFloat($("#price").html()).toFixed(2);
+            var num   = parseInt(t.val());
+            $(".tprice").html(parseFloat(price*num).toFixed(2));
+        })
+
+    });
+
+    function changeTotal(obj) {
+        if($("#dishid").val() == 0)  { $(obj).val(1);return '';}
+        //单价
+        var price = parseFloat($("#price").html()).toFixed(2);
+        //当前值:
+        var cur_num = $(obj).val();
+        //库存
+        var total_num = parseInt($("#total_num").html());
+
+        //中文或者小于0
+        if(isNaN(cur_num) || parseInt(cur_num) <= 0 || cur_num == '' || cur_num == undefined){
+            $(obj).val(1);
+            $(".tprice").html(parseFloat(price).toFixed(2));
+        }else  if(parseInt(cur_num) > total_num){
+            $(obj).val(total_num);
+            $(".tprice").html(parseFloat(price*total_num).toFixed(2));
+        }else {
+            cur_num = parseInt(cur_num);
+            $(obj).val(cur_num);
+            $(".tprice").html(parseFloat(price*cur_num).toFixed(2));
+        }
+
+    }
+    function choose_pay(type){
+        $("input[name='paytype']").each(function(){
+            if($(this).val() == type){
+                $(this).click();
+            }
+        })
+    }
+
+    function choose_dish(obj){
+        var dish_id = $(obj).val();
+        if(dish_id == 0){
+            clean_all();
+            return '';
+        }
+        dish_obj   = JSON.parse(dish_json);
+        if(dish_obj.length < 0){
+            layer.alert('暂无商品！',{icon: 5});
+            return '';
+        }
+        for(var i=0;i<dish_obj.length;i++){
+            var data = dish_obj[i];
+            if(data.id == dish_id){
+                $("#remark").html(data.content);
+                $("#price").html(data.marketprice);
+                $("#total_num").html(data.total_number);
+                $(".text_box").val(1);
+                var price = parseFloat(data.marketprice).toFixed(2);
+                $(".tprice").html(price);
+            }
+        }
+    }
+
+    function clean_all(){
+        $("#remark").html('');
+        $("#price").html('');
+        $("#total_num").html('');
+        $(".text_box").val(1);
+        $(".tprice").html('0.00');
+    }
+
+    function tobuy(){
+        var openid = "<!--@php echo checkIsLogin();@-->";
+        if(!openid){
+            layer.confirm('您还未登录!', {
+                btn: ['马上登录','稍后登录'] //按钮
+            }, function(){
+                window.location.href = "http://"+window.location.host;
+            }, function(){
+
+            });
+            return '';
+        }
+        var paytype = '';
+        $("input[name='paytype']").each(function(){
+           if(this.checked){
+                paytype = $(this).val();
+           }
+        });
+        var allType = {'ali':1,'weixin':1,'qqrcode':1,'ten':1};
+        var allType2 = {'qqrcode':1,'ten':1};
+        if(paytype == '' || !allType.hasOwnProperty(paytype)){
+            layer.alert('支付类型不对！',{icon: 5});
+            return '';
+        }
+        if(allType2.hasOwnProperty(paytype)){
+            layer.alert('该支付类型等待完善中！',{icon: 5});
+            return '';
+        }
+        var dish_id = $("#dishid").val();
+        if(dish_id == 0){
+            layer.alert('请选择游戏币种！',{icon: 5});
+            return '';
+        }
+        var url = "<!--@php echo mobile_url('confirm',array('op'=>'index'));@-->";
+        var buy_num = $(".text_box").val();
+        var url = url +"?paytype="+paytype+"&dish_id="+dish_id+"&buy_num="+buy_num;
+        window.open(url);
+        layer.load();
+        $(".cd-signin").val('等待支付');
+        var check_url =  "<!--@php echo mobile_url('confirm',array('op'=>'check_order'));@-->";
+        var go_url    =  "<!--@php echo mobile_url('order',array('op'=>'index'));@-->";
+        check_is_pay(check_url,go_url);
+    }
+</script>
+
+
+</body>
+
+</html>
+

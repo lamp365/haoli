@@ -1,0 +1,155 @@
+<!doctype html>
+
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+
+    <title><!--@php echo $seting['shop_title']; @--></title>
+
+    <meta name="keywords" content="<!--@php echo $seting['shop_keyword']; @-->" />
+
+    <meta name="description" content="<!--@php echo $seting['shop_description']; @-->" />
+    <script src="__RESOURCE__/script/jquery-1.11.0.js"></script>
+
+    <script src="__RESOURCE__/index/js/jquery.fullPage.min.js"></script>
+
+    <script src="__RESOURCE__/index/js/wow.min.js"></script>
+
+    <link href="__RESOURCE__/index/css/style.css" rel="stylesheet" type="text/css">
+
+    <link href="__RESOURCE__/index/css/animate.min.css" rel="stylesheet" type="text/css">
+    <script src="__RESOURCE__/order/js/layer.js"></script>
+    <style>
+        .Qrcode{
+            text-align: center;
+            background: url("__RESOURCE__/recouse/images/qr-img.png") no-repeat 40px 15px;
+            background-color: #ffffff;
+            padding: 20px;
+            width: 277px;
+            height: 355px;
+        }
+        .Qrcode canvas{
+            margin-top: 35px;
+        }
+    </style>
+</head>
+
+<body>
+<!--@php  include page('menu_nav');@-->
+
+
+<div id="dowebok">
+
+    <div class="section section1">
+
+        <div id="container">
+
+            <div class="s1_left">
+
+                <p>全新购卡体验</p>
+
+                <p>致力于解决虚拟商品的快捷寄售服务，为商户及其买家提供，便捷、绿色、安全、快速的销售和购买体验。</p>
+
+                <!--@php if(!$openid){ @-->
+
+                <p align="center"><img src="__RESOURCE__/index/images/jiantou.png" alt="<!--@php echo $seting['shop_title']; @-->用户注册" width="30" height="52"></p>
+
+                <p align="center"><a href="<!--@php echo mobile_url('login',array('op'=>'signin')); @-->" class="zc_btn"><i class="fa fa-edit" style="font-size:24px; vertical-align:middle"></i> <b>用户注册</b></a></p>
+                <!--@php } @-->
+            </div>
+
+
+            <!--@php if(!$openid){ @-->
+            <div class="s1_right" data-wow-duration="1.6s">
+
+                <form method="post" action="<!--@php echo mobile_url('login',array('op'=>'signup')); @-->">
+
+                    <p style="color: #ffffff;font-size: 22px;font-family: '微软雅黑';text-shadow: 1px 1px 2px #587686;"><!--@php echo $seting['shop_title']; @--></p>
+
+                    <p><i class="fa fa-user-o"></i>
+
+                        <input name="mobile" placeholder="会员QQ" type="number" value="" class="user" required></p>
+
+                    <p><i class="fa fa-key"></i>
+
+                        <input name="pwd" type="password" placeholder="会员密码" class="user" required></p>
+
+                    <p><button class="dl_btn"><i class="fa fa-chevron-circle-right" style="font-size:24px; vertical-align:middle"></i> <b>用户登录</b></button></p>
+
+                    <p><a href="javascript:;" target="_blank" style=" color:#0acffe" onclick="show_tips()">忘记密码？</a></p>
+                    <p style="clear: both;padding: 0px 25px;margin-top: 40px;height: 32px;">
+                        <span style="font-size: 12px;color: #999;margin-top: 9px;display: block;float: left;width: 100px;">使用第三方登录:</span>
+                        <a href="<!--@php echo mobile_url('thirdlogin',array('op'=>'login','oauth'=>'qq')); @-->" style="display: inline-block">
+                            <img src="__RESOURCE__/recouse/images/connect_qq.png" alt="" border="0" style="margin-left: 18px;cursor: pointer">
+                        </a>
+                        <a data-getsession="<!--@php echo mobile_url('qrcodelogin',array('op'=>'get_sessionid')); @-->"
+                           data-getcheck="<!--@php echo mobile_url('qrcodelogin',array('op'=>'checkLogin')); @-->"
+                           data-qrcode="<!--@php echo mobile_url('qrcodelogin',array('op'=>'index')); @-->"
+                           href="javascript:;" style="display: inline-block" onclick="showWeixinQrcode(this)">
+                            <img src="__RESOURCE__/recouse/images/connect_weixin.png" alt="" border="0" style="margin-left: 8px;cursor: pointer">
+                        </a>
+                    </p>
+                </form>
+
+            </div>
+            <!--@php } @-->
+
+            <div id="clear"></div>
+
+        </div>
+
+    </div>
+
+</div>
+<script type="text/javascript"	src="__RESOURCE__/script/jquery.qrcode.min.js"></script>
+<script src="__RESOURCE__/index/js/main.js"></script>
+
+<script>
+
+    $(function(){
+
+        $('#dowebok').fullpage({
+
+            scrollingSpeed:300,
+
+            loopBottom:true,
+
+            anchors: ['page1', 'page2', 'page3', 'page4','page5','page6'],
+
+            menu: '#menu',
+
+            resize:false,
+
+            scrollBar: true,
+
+            afterRender:function(){
+
+                wow = new WOW({
+
+                    animateClass: 'animated',
+
+                });
+
+                wow.init();
+
+            }
+
+        });
+
+    });
+
+    function show_tips() {
+        layer.open({
+            title: "信息提示",
+            content: '联系客服找回密码!'
+        });
+    }
+
+</script>
+
+</body>
+
+</html>
+

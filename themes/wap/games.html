@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+
+    <title><!--@php echo $seting['shop_title']; @--></title>
+
+    <meta name="keywords" content="<!--@php echo $seting['shop_keyword']; @-->" />
+
+    <meta name="description" content="<!--@php echo $seting['shop_description']; @-->" />
+
+    <link href="__RESOURCE__/games/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="__RESOURCE__/games/css/newmobile.css" rel="stylesheet" type="text/css">
+    <link href="__RESOURCE__/games/css/nyro.css" rel="stylesheet" type="text/css">
+    <link href="__RESOURCE__/games/css/thickbox.css" rel="stylesheet" type="text/css">
+
+    <script src="__RESOURCE__/script/jquery-1.11.0.js"></script>
+    <script src="__RESOURCE__/games/js/nyro.js" type="text/javascript"></script>
+    <script src="__RESOURCE__/games/js/thickbox.js" type="text/javascript"></script>
+    <script src="__RESOURCE__/games/js/woodyapp.js" type="text/javascript"></script>
+    <script src="__RESOURCE__/recouse/js/layer.js"></script>
+
+    <script>
+        $(function(){
+            $(".box").click(function(){
+                $(".box span").removeClass("span_on");
+                $(this).children("span").addClass("span_on");
+            });
+        });
+    </script>
+</head>
+<body>
+<!-- top -->
+<div class="pay_top">
+    <p>平台名称： <!--@php echo $seting['shop_title']; @--><br>
+        在线客服：
+        <!--@php $num = 0; foreach($self_qq as $qq_num => $qq_src){  if($num >= 1){ continue; } $num++;  @-->
+        <a style="color: #ffffff" href="<!--@php echo $qq_src; @-->"><!--@php echo $qq_num; @--></a>
+        <!--@php } @-->
+    </p>
+    <p>平台公告： <!--@php echo $seting['shop_gongao']; @--></p>
+    <span class="logo"></span>
+</div>
+<!-- 查询 客服 -->
+<div class="top_btn">
+    <a href="<!--@php echo mobile_url('order',array('op'=>'index')); @-->" ><i class="fa fa-calendar"></i> 订单查询</a>
+    <!--@php $num = 0; foreach($self_qq as $qq_num => $qq_src){  if($num >= 1){ continue; } $num++;  @-->
+    <a  href="<!--@php echo $qq_src; @-->"><i class="fa fa-qq"></i> 联系客服</a>
+    <!--@php } @-->
+</div>
+
+
+<div class="choose_goods">
+    <span class="choose_title">1. 选择商品</span>
+        <p>
+            <span class="s_left">商品分类</span>
+            <span class="s_right">
+                <span>
+                    自愿赞助系统
+                </span>
+            </span>
+        </p>
+    <p>
+        <span class="s_left">商品类型</span>
+        <span class="s_right">
+                <span>
+                    数字卡密
+                </span>
+            </span>
+    </p>
+
+        <div class="s_box">
+            <span>商品名称</span>
+            <span id="loading" style="display:none"></span>
+            <span>
+                 <select name="dishid" id="dishid" onchange="choose_dish(this)" style="max-width: 500px">
+                        <option value="">请选择商品</option>
+                     <!--@php foreach($allDish as $one_dish){ @-->
+                        <option value="<!--@php  echo $one_dish['id'];@-->"><!--@php  echo $one_dish['title'];@--></option>
+                     <!--@php } @-->
+                    </select>
+            </span>
+        </div>
+    <p class="pinfo2">
+        <span class="s_left">商品单价</span>
+        <span class="s_right"><strong class="red" id="price">0.00</strong> 元</span>
+    </p>
+
+    <div id="discountdetail"></div>
+    <p>
+        <span class="s_left">购买数量</span>
+        <span class="s_right"><font color="green" id="goodInvent" style="float: left"></font>
+            <input type="text" class="text_box" onkeyup="changeTotal(this)" name="quantity" value="1" style="width:100px;"> 份
+        </span>
+    </p>
+    <p>
+        <span class="s_left">商品库存</span>
+        <span class="s_right">
+                <span id="total_num">
+                </span>
+        </span>
+    </p>
+    <span class="shuoming" id="">商品说明：<font id="renark"></font></span>
+</div>
+
+<!-- 应付总额 -->
+<div class="price" id="payinfo">应付总额 <span class="red tprice">0.00</span> 元</div>
+
+
+        <div id="buy_border">
+            <div class="step">2. 选择支付方式</div>
+            <div id="step_two">
+                <div class="paylist">
+                    <label>
+                        <div class="box">
+                            <input name="paytype" type="radio" value="ali" checked=""> &nbsp;<img src="__RESOURCE__/games/images/zfb1.png" width="238" height="60" style="vertical-align:middle">
+                            <span class="span_on"></span>
+                        </div>
+                    </label>
+                    <label>
+                        <div class="box">
+                            <input name="paytype" type="radio" value="weixin"> &nbsp;<img src="__RESOURCE__/games/images/wx1.png" width="238" height="60" style="vertical-align:middle">
+                            <span></span>
+                        </div>
+                    </label>
+                    <label>
+                        <div class="box">
+                            <input name="paytype" type="radio" value="qqrcode"> &nbsp;<img src="__RESOURCE__/games/images/qq1.png" width="238" height="60" style="vertical-align:middle">
+                            <span></span>
+                        </div>
+                    </label>
+                    <div style="clear:left"></div>
+                </div>
+            </div>
+        </div>
+        <div id="submit"><input type="button" value="确 认 支 付" class="next_btn" onclick="tobuy()"> </div>
+
+<script>
+    var dish_json = '<!--@php echo $dish_json; @-->';
+
+    function changeTotal(obj) {
+        if($("#dishid").val() == 0)  { $(obj).val(1);return '';}
+        //单价
+        var price = parseFloat($("#price").html()).toFixed(2);
+        //当前值:
+        var cur_num = $(obj).val();
+        //库存
+        var total_num = parseInt($("#total_num").html());
+
+        if(cur_num == ''){
+            return '';
+        }
+        //中文或者小于0
+        if(isNaN(cur_num) || parseInt(cur_num) <= 0 || cur_num == '' || cur_num == undefined){
+            $(obj).val(1);
+            $(".tprice").html(parseFloat(price).toFixed(2));
+        }else  if(parseInt(cur_num) > total_num){
+            $(obj).val(total_num);
+            $(".tprice").html(parseFloat(price*total_num).toFixed(2));
+        }else {
+            cur_num = parseInt(cur_num);
+            $(obj).val(cur_num);
+            $(".tprice").html(parseFloat(price*cur_num).toFixed(2));
+        }
+
+    }
+
+
+    function choose_dish(obj){
+        var dish_id = $(obj).val();
+        if(dish_id == 0){
+            clean_all();
+            return '';
+        }
+        dish_obj   = JSON.parse(dish_json);
+        if(dish_obj.length < 0){
+            layer.alert('暂无商品！',{icon: 5});
+            return '';
+        }
+        for(var i=0;i<dish_obj.length;i++){
+            var data = dish_obj[i];
+            if(data.id == dish_id){
+                $("#remark").html(data.content);
+                $("#price").html(data.marketprice);
+                $("#total_num").html(data.total_number);
+                $(".text_box").val(1);
+                var price = parseFloat(data.marketprice).toFixed(2);
+                $(".tprice").html(price);
+            }
+        }
+    }
+
+    function clean_all(){
+        $("#remark").html('');
+        $("#price").html('');
+        $("#total_num").html('');
+        $(".text_box").val(1);
+        $(".tprice").html('0.00');
+    }
+
+    function tobuy(){
+        var openid = "<!--@php echo checkIsLogin();@-->";
+        if(!openid){
+            layer.confirm('您还未登录!', {
+                btn: ['马上登录','稍后登录'] //按钮
+            }, function(){
+                window.location.href = "http://"+window.location.host;
+            }, function(){
+
+            });
+            return '';
+        }
+        var paytype = '';
+        $("input[name='paytype']").each(function(){
+            if(this.checked){
+                paytype = $(this).val();
+            }
+        });
+        var allType = {'ali':1,'weixin':1,'qqrcode':1,'ten':1};
+        var allType2 = {'qqrcode':1,'ten':1};
+        if(paytype == '' || !allType.hasOwnProperty(paytype)){
+            layer.alert('支付类型不对！',{icon: 5});
+            return '';
+        }
+        if(allType2.hasOwnProperty(paytype)){
+            layer.alert('该支付类型等待完善中！',{icon: 5});
+            return '';
+        }
+        var dish_id = $("#dishid").val();
+        if(dish_id == 0){
+            layer.alert('请选择游戏币种！',{icon: 5});
+            return '';
+        }
+        var url = "<!--@php echo mobile_url('confirm',array('op'=>'index'));@-->";
+        var buy_num = $(".text_box").val();
+        var url = url +"?paytype="+paytype+"&dish_id="+dish_id+"&buy_num="+buy_num;
+        window.open(url);
+        layer.load();
+        $(".cd-signin").val('等待支付');
+        var check_url =  "<!--@php echo mobile_url('confirm',array('op'=>'check_order'));@-->";
+        var go_url    =  "<!--@php echo mobile_url('order',array('op'=>'index'));@-->";
+        check_is_pay(check_url,go_url);
+    }
+</script>
+
+</body></html>
