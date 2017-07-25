@@ -15,8 +15,8 @@
  * ============================================================================
  *
  */
+namespace twinh\tenpay;
 
-require ("RequestHandler.class.php");
 class CheckRequestHandler extends RequestHandler {
 
 	function __construct() {

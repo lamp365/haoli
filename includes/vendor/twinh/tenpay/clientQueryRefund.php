@@ -15,11 +15,11 @@ require ("classes/client/ClientResponseHandler.class.php");
 require ("classes/client/TenpayHttpClient.class.php");
 
 /* 商户号 */
-$partner = "1900000109";
+$partner = "1486474181";
 
 
 /* 密钥 */
-$key = "8934e7d15453e97507ef794cf7b0519d";
+$key = "4ff7a938fc9489b17f7b9b4f5127c59a";
 
 
 

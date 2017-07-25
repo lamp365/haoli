@@ -8,6 +8,12 @@
             "email": "twinhuang@qq.com"
         }
     ],
+    "autoload": {
+        "files": [],
+        "psr-4": {
+            "twinh\\tenpay\\": "classes/"
+        }
+    },
     "require": {
 
     }

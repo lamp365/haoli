@@ -8,7 +8,7 @@
 <?php
 
 
-require ("classes/CheckRequestHandler.class.php");
+require("classes/CheckRequestHandler.php");
 require ("classes/client/TenpayHttpClient.class.php");
 
 /* 商户号 */
