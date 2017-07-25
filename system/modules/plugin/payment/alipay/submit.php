@@ -1,7 +1,7 @@
 <?php 
 	if(empty($_GP['alipay_account'])||empty($_GP['alipay_safekey'])||empty($_GP['alipay_safepid']))
 	{
-	message("请填写完整");	
+	    message("请填写完整");
 	}
 	
 

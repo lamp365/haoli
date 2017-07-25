@@ -1,7 +1,7 @@
 <?php
 
 		 $operation = !empty($_GP['op']) ? $_GP['op'] : 'list';
-				$addons = dir(WEB_ROOT.'/system/modules/plugin/payment/'); 
+				$addons = dir(WEB_ROOT.'/system/modules/plugin/payment/');
 				$modules=array();
 				$index=0;
 				        
@@ -13,13 +13,12 @@
 						$item = mysqld_select("SELECT * FROM " . table('payment') . " WHERE enabled=1 and code = :code", array(':code' => $file));
        			
 						require WEB_ROOT.'/system/modules/plugin/payment/'.$file.'/lang.php';
-						    if (empty($item['id'])) {
-       			    	$modules[$index]['enable']=0;
-       			    }else
-       			    {
-       			    		$modules[$index]['enable']=1;
-       			    }
-						$index=$index+1;
-					}
+                        if (empty($item['id'])) {
+                            $modules[$index]['enable']=0;
+                        }else {
+                            $modules[$index]['enable']=1;
+                        }
+                        $index=$index+1;
+                    }
 				}
 		include page('payment');
