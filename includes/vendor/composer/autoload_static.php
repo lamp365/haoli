@@ -15,6 +15,10 @@ class ComposerStaticInita03732d71b5d719fd173028dfd41b5c2
         array (
             'wlt\\wxmini\\' => 11,
         ),
+        'k' => 
+        array (
+            'kevin365\\tenpay\\' => 16,
+        ),
         'h' => 
         array (
             'houdunwang\\image\\' => 17,
@@ -36,6 +40,10 @@ class ComposerStaticInita03732d71b5d719fd173028dfd41b5c2
         'wlt\\wxmini\\' => 
         array (
             0 => __DIR__ . '/..' . '/xxh/think-wxminihelper/src',
+        ),
+        'kevin365\\tenpay\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kevin365/tenpay/kevin365/tenpay',
         ),
         'houdunwang\\image\\' => 
         array (

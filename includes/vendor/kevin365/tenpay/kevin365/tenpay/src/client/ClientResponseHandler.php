@@ -13,6 +13,7 @@
  * ============================================================================
  *
  */
+namespace kevin365\tenpay\src\client;
 
 class ClientResponseHandler  {
 

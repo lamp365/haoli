@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d76b6d02e58ffc6c4e2427e260fed316",
+    "content-hash": "3f8e38c5f2bca9e95caec9dc5c205f8a",
     "packages": [
         {
             "name": "houdunwang/config",
@@ -301,30 +301,41 @@
             "time": "2015-12-28T06:09:36+00:00"
         },
         {
-            "name": "twinh/tenpay",
-            "version": "0.9.9",
+            "name": "kevin365/tenpay",
+            "version": "1.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/twinh/tenpay.git",
-                "reference": "5698fac409ebc7eaff61c39b13a2dabf218dbbe9"
+                "url": "https://github.com/lamp365/tenpay.git",
+                "reference": "f4d5163ee2a23ed5e2eabe9c89efe476ab3e999c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/twinh/tenpay/5698fac409ebc7eaff61c39b13a2dabf218dbbe9.zip",
-                "reference": "5698fac409ebc7eaff61c39b13a2dabf218dbbe9",
+                "url": "https://files.phpcomposer.com/files/lamp365/tenpay/f4d5163ee2a23ed5e2eabe9c89efe476ab3e999c.zip",
+                "reference": "f4d5163ee2a23ed5e2eabe9c89efe476ab3e999c",
                 "shasum": ""
             },
-            "type": "library",
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "project",
+            "autoload": {
+                "psr-4": {
+                    "kevin365\\tenpay\\": "kevin365/tenpay"
+                }
+            },
             "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "xx-2.0"
+            ],
             "authors": [
                 {
-                    "name": "Twin Huang",
-                    "email": "twinhuang@qq.com",
-                    "homepage": "https://github.com/twinh/wei"
+                    "name": "刘建凡",
+                    "email": "lamp365@163.com"
                 }
             ],
-            "description": "财付通PC端支付接口",
-            "time": "2013-12-20T07:45:35+00:00"
+            "description": "经过改装后的一个腾讯财付通支付",
+            "homepage": "http://dayblog.cn/",
+            "time": "2017-07-25T13:15:01+00:00"
         },
         {
             "name": "xxh/think-wxminihelper",

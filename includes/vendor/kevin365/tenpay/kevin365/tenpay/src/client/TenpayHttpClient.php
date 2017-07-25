@@ -17,6 +17,7 @@
  * ============================================================================
  *
  */
+namespace kevin365\tenpay\src\client;
 
 class TenpayHttpClient {
 	//请求内容，无论post和get，都用get方式提供

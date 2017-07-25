@@ -1,6 +1,6 @@
 <?php
 
-namespace twinh\tenpay;
+namespace kevin365\tenpay\src;
 class ResponseHandler  {
 
 	/** 密钥 */

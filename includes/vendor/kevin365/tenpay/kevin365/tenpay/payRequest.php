@@ -3,7 +3,7 @@
 //财付通即时到帐支付请求示例，商户按照此文档进行开发即可
 //---------------------------------------------------------
 
-require_once ("classes/RequestHandler.class.php");
+require_once (__DIR__."/src/RequestHandler.php");
 
 /* 商户号，上线时务必将测试商户号替换为正式商户号 */
 $partner = "1900000109";
@@ -23,7 +23,7 @@ $out_trade_no = date("YmdHis") . $randNum;
 
 
 /* 创建支付请求对象 */
-$reqHandler = new RequestHandler();
+$reqHandler = new \kevin365\tenpay\src\RequestHandler();
 $reqHandler->init();
 $reqHandler->setKey($key);
 $reqHandler->setGateUrl("https://gw.tenpay.com/gateway/pay.htm");

@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'wlt\\wxmini\\' => array($vendorDir . '/xxh/think-wxminihelper/src'),
+    'kevin365\\tenpay\\' => array($vendorDir . '/kevin365/tenpay/kevin365/tenpay'),
     'houdunwang\\image\\' => array($vendorDir . '/houdunwang/image/src'),
     'houdunwang\\config\\' => array($vendorDir . '/houdunwang/config/src'),
     'Yinjiang\\Qqlogin\\' => array($vendorDir . '/yinjiang/qqlogin/src'),

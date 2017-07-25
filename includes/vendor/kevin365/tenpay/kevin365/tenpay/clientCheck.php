@@ -8,8 +8,8 @@
 <?php
 
 
-require("classes/CheckRequestHandler.php");
-require ("classes/client/TenpayHttpClient.class.php");
+require(__DIR__."/src/CheckRequestHandler.php");
+require (__DIR__ . "/src/client/TenpayHttpClient.php");
 
 /* 商户号 */
 $spid = "1900000109";
@@ -20,9 +20,9 @@ $key = "8934e7d15453e97507ef794cf7b0519d";
 
 
 /* 创建支付请求对象 */
-$reqHandler = new CheckRequestHandler();
+$reqHandler = new \kevin365\tenpay\src\CheckRequestHandler();
 //通信对象
-$httpClient = new TenpayHttpClient();
+$httpClient = new \kevin365\tenpay\src\client\TenpayHttpClient();
 
 
 //-----------------------------

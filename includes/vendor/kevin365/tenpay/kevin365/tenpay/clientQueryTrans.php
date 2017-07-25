@@ -10,9 +10,9 @@
 //财付通订单查后台调用示例，商户按照此文档进行开发即可
 //---------------------------------------------------------
 
-require ("classes/RequestHandler.class.php");
-require ("classes/client/ClientResponseHandler.class.php");
-require ("classes/client/TenpayHttpClient.class.php");
+require (__DIR__."/src/RequestHandler.php");
+require (__DIR__ . "/src/client/ClientResponseHandler.php");
+require (__DIR__ . "/src/client/TenpayHttpClient.php");
 
 /* 商户号 */
 $partner = "1900000109";
@@ -25,13 +25,13 @@ $key = "8934e7d15453e97507ef794cf7b0519d";
 
 
 /* 创建支付请求对象 */
-$reqHandler = new RequestHandler();
+$reqHandler = new \kevin365\tenpay\src\RequestHandler();
 
 //通信对象
-$httpClient = new TenpayHttpClient();
+$httpClient = new \kevin365\tenpay\src\client\TenpayHttpClient();
 
 //应答对象
-$resHandler = new ClientResponseHandler();
+$resHandler = new \kevin365\tenpay\src\client\ClientResponseHandler();
 
 //-----------------------------
 //设置请求参数

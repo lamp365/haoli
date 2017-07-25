@@ -10,4 +10,10 @@ class about extends \home\controller\base
         $kefuQQ  = getQQ_onWork($seting);
 		include themePage('about');
 	}
+
+	public function cc()
+	{
+		$a = new \twinh\tenpay\Tenpay();
+		$a->index();
+	}
 }
