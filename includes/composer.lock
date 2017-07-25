@@ -4,8 +4,109 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "e955bcf885a108f840c158775e591132",
+    "content-hash": "d76b6d02e58ffc6c4e2427e260fed316",
     "packages": [
+        {
+            "name": "houdunwang/config",
+            "version": "v1.0.22",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/houdunwang/config.git",
+                "reference": "0ce607bd51ae67b6dc8c11a88fd66e1519519aea"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/houdunwang/config/0ce607bd51ae67b6dc8c11a88fd66e1519519aea.zip",
+                "reference": "0ce607bd51ae67b6dc8c11a88fd66e1519519aea",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.1"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/helper.php"
+                ],
+                "psr-4": {
+                    "houdunwang\\config\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "后盾网向军",
+                    "email": "2300071698@qq.com"
+                }
+            ],
+            "description": "config组件用于管理网站配置项",
+            "homepage": "http://www.houdunwang.com/",
+            "keywords": [
+                "hdphp",
+                "houdunwang",
+                "后盾人",
+                "后盾网",
+                "向军老师",
+                "配置管理"
+            ],
+            "time": "2017-06-21T12:27:54+00:00"
+        },
+        {
+            "name": "houdunwang/image",
+            "version": "v1.0.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/houdunwang/image.git",
+                "reference": "1e306cc40adfdab82538b8734fb61a3f14e85d77"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/houdunwang/image/1e306cc40adfdab82538b8734fb61a3f14e85d77.zip",
+                "reference": "1e306cc40adfdab82538b8734fb61a3f14e85d77",
+                "shasum": ""
+            },
+            "require": {
+                "houdunwang/config": "~1.0",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.1"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [],
+                "psr-4": {
+                    "houdunwang\\image\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "后盾网向军",
+                    "email": "2300071698@qq.com"
+                }
+            ],
+            "description": "图片组件提供了缩略图、水印等图像处理功能",
+            "homepage": "http://www.houdunwang.com/",
+            "keywords": [
+                "hdphp",
+                "houdunwang",
+                "image",
+                "后盾人",
+                "后盾网",
+                "后盾网向军"
+            ],
+            "time": "2017-05-17T03:44:49+00:00"
+        },
         {
             "name": "jaeger/curlmulti",
             "version": "1.0",
@@ -198,6 +299,32 @@
             ],
             "description": "QueryList扩展，Multi多线程扩展",
             "time": "2015-12-28T06:09:36+00:00"
+        },
+        {
+            "name": "twinh/tenpay",
+            "version": "0.9.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/twinh/tenpay.git",
+                "reference": "5698fac409ebc7eaff61c39b13a2dabf218dbbe9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/twinh/tenpay/5698fac409ebc7eaff61c39b13a2dabf218dbbe9.zip",
+                "reference": "5698fac409ebc7eaff61c39b13a2dabf218dbbe9",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Twin Huang",
+                    "email": "twinhuang@qq.com",
+                    "homepage": "https://github.com/twinh/wei"
+                }
+            ],
+            "description": "财付通PC端支付接口",
+            "time": "2013-12-20T07:45:35+00:00"
         },
         {
             "name": "xxh/think-wxminihelper",

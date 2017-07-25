@@ -4,7 +4,9 @@
 		"jaeger/querylist-ext-aquery": "^1.0",
 		"jaeger/querylist-ext-multi": "^1.0",
 		"xxh/think-wxminihelper":"1.0",
-		"yinjiang/qqlogin":"^1.1.2"
+		"yinjiang/qqlogin":"^1.1.2",
+		"houdunwang/image":"^1.0.7",
+		"twinh/tenpay":"0.9.9"
 	},
 	"repositories": {
 		"packagist": {
