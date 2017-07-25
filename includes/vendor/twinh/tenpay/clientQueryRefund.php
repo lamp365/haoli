@@ -1,102 +1,102 @@
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=gbk">
-	<title>¶©µ¥²éÑ¯ºóÌ¨µ÷ÓÃÊ¾Àı</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>è®¢å•æŸ¥è¯¢åå°è°ƒç”¨ç¤ºä¾‹</title>
 </head>
 <body>
 
 <?php
 //---------------------------------------------------------
-//²Æ¸¶Í¨¶©µ¥²éºóÌ¨µ÷ÓÃÊ¾Àı£¬ÉÌ»§°´ÕÕ´ËÎÄµµ½øĞĞ¿ª·¢¼´¿É
+//è´¢ä»˜é€šè®¢å•æŸ¥åå°è°ƒç”¨ç¤ºä¾‹ï¼Œå•†æˆ·æŒ‰ç…§æ­¤æ–‡æ¡£è¿›è¡Œå¼€å‘å³å¯
 //---------------------------------------------------------
 
 require ("classes/RequestHandler.class.php");
 require ("classes/client/ClientResponseHandler.class.php");
 require ("classes/client/TenpayHttpClient.class.php");
 
-/* ÉÌ»§ºÅ */
+/* å•†æˆ·å· */
 $partner = "1900000109";
 
 
-/* ÃÜÔ¿ */
+/* å¯†é’¥ */
 $key = "8934e7d15453e97507ef794cf7b0519d";
 
 
 
 
-/* ´´½¨Ö§¸¶ÇëÇó¶ÔÏó */
+/* åˆ›å»ºæ”¯ä»˜è¯·æ±‚å¯¹è±¡ */
 $reqHandler = new RequestHandler();
 
-//Í¨ĞÅ¶ÔÏó
+//é€šä¿¡å¯¹è±¡
 $httpClient = new TenpayHttpClient();
 
-//Ó¦´ğ¶ÔÏó
+//åº”ç­”å¯¹è±¡
 $resHandler = new ClientResponseHandler();
 
 //-----------------------------
-//ÉèÖÃÇëÇó²ÎÊı
+//è®¾ç½®è¯·æ±‚å‚æ•°
 //-----------------------------
 $reqHandler->init();
 $reqHandler->setKey($key);
 
 $reqHandler->setGateUrl("https://gw.tenpay.com/gateway/normalrefundquery.xml");
 $reqHandler->setParameter("partner", $partner);
-//out_trade_noºÍtransaction_id¡¢out_refund_no¡¢refund_idÖÁÉÙÒ»¸ö±ØÌî£¬
-//Í¬Ê±´æÔÚÊ±ÒÔÓÅÏÈ¼¶¸ßÎª×¼£¬ÓÅÏÈ¼¶Îª£ºrefund_id>out_refund_no>transaction_id>out_trade_no
+//out_trade_noå’Œtransaction_idã€out_refund_noã€refund_idè‡³å°‘ä¸€ä¸ªå¿…å¡«ï¼Œ
+//åŒæ—¶å­˜åœ¨æ—¶ä»¥ä¼˜å…ˆçº§é«˜ä¸ºå‡†ï¼Œä¼˜å…ˆçº§ä¸ºï¼šrefund_id>out_refund_no>transaction_id>out_trade_no
 $reqHandler->setParameter("out_trade_no", "201101121111462844");
-//$reqHandler->setParameter("transaction_id", "1900000109201101120023707085");			
+//$reqHandler->setParameter("transaction_id", "1900000109201101120023707085");
 
 
 
 //-----------------------------
-//ÉèÖÃÍ¨ĞÅ²ÎÊı
+//è®¾ç½®é€šä¿¡å‚æ•°
 //-----------------------------
 $httpClient->setTimeOut(5);
-//ÉèÖÃÇëÇóÄÚÈİ
+//è®¾ç½®è¯·æ±‚å†…å®¹
 $httpClient->setReqContent($reqHandler->getRequestURL());
 
-//ºóÌ¨µ÷ÓÃ
+//åå°è°ƒç”¨
 if($httpClient->call()) {
-	//ÉèÖÃ½á¹û²ÎÊı
+	//è®¾ç½®ç»“æœå‚æ•°
 	$resHandler->setContent($httpClient->getResContent());
 	$resHandler->setKey($key);
 
-	//ÅĞ¶ÏÇ©Ãû¼°½á¹û
-	//Ö»ÓĞÇ©ÃûÕıÈ·²¢ÇÒretcodeÎª0²ÅÊÇÇëÇó³É¹¦
+	//åˆ¤æ–­ç­¾ååŠç»“æœ
+	//åªæœ‰ç­¾åæ­£ç¡®å¹¶ä¸”retcodeä¸º0æ‰æ˜¯è¯·æ±‚æˆåŠŸ
 	if($resHandler->isTenpaySign() && $resHandler->getParameter("retcode") == "0" ) {
-		//È¡½á¹û²ÎÊı×öÒµÎñ´¦Àí
-		//ÉÌ»§¶©µ¥ºÅ
+		//å–ç»“æœå‚æ•°åšä¸šåŠ¡å¤„ç†
+		//å•†æˆ·è®¢å•å·
 		$out_trade_no = $resHandler->getParameter("out_trade_no");
-		
-		//²Æ¸¶Í¨¶©µ¥ºÅ
+
+		//è´¢ä»˜é€šè®¢å•å·
 		$transaction_id = $resHandler->getParameter("transaction_id");
-		
-		//½ğ¶î,ÒÔ·ÖÎªµ¥Î»
+
+		//é‡‘é¢,ä»¥åˆ†ä¸ºå•ä½
 		$refund_count = $resHandler->getParameter("refund_count");
-		
-		echo "ÍË¿î±ÊÊı:" . $refund_count;
-		
-		//Ã¿±ÊÍË¿îÏêÇé
+
+		echo "é€€æ¬¾ç¬”æ•°:" . $refund_count;
+
+		//æ¯ç¬”é€€æ¬¾è¯¦æƒ…
 		for($i=0; $i<$refund_count; $i++) {
-			echo "µÚ" . ($i+1) . "±Ê£º" . "refund_state_" . $i . "=" . $resHandler->getParameter("refund_state_".$i) . ",out_refund_no_" . $i . "=" . $resHandler->getParameter("out_refund_no_".$i) . ",refund_fee_" . $i . "=" . $resHandler->getParameter("refund_fee_".$i) . "<br>";;
-			
+			echo "ç¬¬" . ($i+1) . "ç¬”ï¼š" . "refund_state_" . $i . "=" . $resHandler->getParameter("refund_state_".$i) . ",out_refund_no_" . $i . "=" . $resHandler->getParameter("out_refund_no_".$i) . ",refund_fee_" . $i . "=" . $resHandler->getParameter("refund_fee_".$i) . "<br>";;
+
 		}
-		
-		
-		
+
+
+
 	} else {
-		//´íÎóÊ±£¬·µ»Ø½á¹û¿ÉÄÜÃ»ÓĞÇ©Ãû£¬¼ÇÂ¼retcode¡¢retmsg¿´Ê§°ÜÏêÇé¡£
-		echo "ÑéÖ¤Ç©ÃûÊ§°Ü »ò ÒµÎñ´íÎóĞÅÏ¢:retcode=" . $resHandler->getParameter("retcode"). ",retmsg=" . $resHandler->getParameter("retmsg") . "<br>";
+		//é”™è¯¯æ—¶ï¼Œè¿”å›ç»“æœå¯èƒ½æ²¡æœ‰ç­¾åï¼Œè®°å½•retcodeã€retmsgçœ‹å¤±è´¥è¯¦æƒ…ã€‚
+		echo "éªŒè¯ç­¾åå¤±è´¥ æˆ– ä¸šåŠ¡é”™è¯¯ä¿¡æ¯:retcode=" . $resHandler->getParameter("retcode"). ",retmsg=" . $resHandler->getParameter("retmsg") . "<br>";
 	}
-	
+
 } else {
-	//ºóÌ¨µ÷ÓÃÍ¨ĞÅÊ§°Ü
+	//åå°è°ƒç”¨é€šä¿¡å¤±è´¥
 	echo "call err:" . $httpClient->getResponseCode() ."," . $httpClient->getErrInfo() . "<br>";
-	//ÓĞ¿ÉÄÜÒòÎªÍøÂçÔ­Òò£¬ÇëÇóÒÑ¾­´¦Àí£¬µ«Î´ÊÕµ½Ó¦´ğ¡£
+	//æœ‰å¯èƒ½å› ä¸ºç½‘ç»œåŸå› ï¼Œè¯·æ±‚å·²ç»å¤„ç†ï¼Œä½†æœªæ”¶åˆ°åº”ç­”ã€‚
 }
 
 
-//µ÷ÊÔĞÅÏ¢,½¨Òé°ÑÇëÇó¡¢Ó¦´ğÄÚÈİ¡¢debugĞÅÏ¢£¬Í¨ĞÅ·µ»ØÂëĞ´ÈëÈÕÖ¾£¬·½±ã¶¨Î»ÎÊÌâ
+//è°ƒè¯•ä¿¡æ¯,å»ºè®®æŠŠè¯·æ±‚ã€åº”ç­”å†…å®¹ã€debugä¿¡æ¯ï¼Œé€šä¿¡è¿”å›ç å†™å…¥æ—¥å¿—ï¼Œæ–¹ä¾¿å®šä½é—®é¢˜
 /*
 echo "<br>------------------------------------------------------<br>";
 echo "http res:" . $httpClient->getResponseCode() . "," . $httpClient->getErrInfo() . "<br>";

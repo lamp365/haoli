@@ -2,25 +2,25 @@
 
 
 class ResponseHandler  {
-	
-	/** ÃÜÔ¿ */
+
+	/** å¯†é’¥ */
 	var $key;
-	
-	/** Ó¦´ğµÄ²ÎÊı */
+
+	/** åº”ç­”çš„å‚æ•° */
 	var $parameters;
-	
-	/** debugĞÅÏ¢ */
+
+	/** debugä¿¡æ¯ */
 	var $debugInfo;
-	
+
 	function __construct() {
 		$this->ResponseHandler();
 	}
-	
+
 	function ResponseHandler() {
 		$this->key = "";
 		$this->parameters = array();
 		$this->debugInfo = "";
-		
+
 		/* GET */
 		foreach($_GET as $k => $v) {
 			$this->setParameter($k, $v);
@@ -30,48 +30,48 @@ class ResponseHandler  {
 			$this->setParameter($k, $v);
 		}
 	}
-		
+
 	/**
-	*»ñÈ¡ÃÜÔ¿
-	*/
+	 *è·å–å¯†é’¥
+	 */
 	function getKey() {
 		return $this->key;
 	}
-	
+
 	/**
-	*ÉèÖÃÃÜÔ¿
-	*/	
+	 *è®¾ç½®å¯†é’¥
+	 */
 	function setKey($key) {
 		$this->key = $key;
 	}
-	
+
 	/**
-	*»ñÈ¡²ÎÊıÖµ
-	*/	
+	 *è·å–å‚æ•°å€¼
+	 */
 	function getParameter($parameter) {
 		return $this->parameters[$parameter];
 	}
-	
+
 	/**
-	*ÉèÖÃ²ÎÊıÖµ
-	*/	
+	 *è®¾ç½®å‚æ•°å€¼
+	 */
 	function setParameter($parameter, $parameterValue) {
 		$this->parameters[$parameter] = $parameterValue;
 	}
-	
+
 	/**
-	*»ñÈ¡ËùÓĞÇëÇóµÄ²ÎÊı
-	*@return array
-	*/
+	 *è·å–æ‰€æœ‰è¯·æ±‚çš„å‚æ•°
+	 *@return array
+	 */
 	function getAllParameters() {
 		return $this->parameters;
-	}	
-	
+	}
+
 	/**
-	*ÊÇ·ñ²Æ¸¶Í¨Ç©Ãû,¹æÔòÊÇ:°´²ÎÊıÃû³Æa-zÅÅĞò,Óöµ½¿ÕÖµµÄ²ÎÊı²»²Î¼ÓÇ©Ãû¡£
-	*true:ÊÇ
-	*false:·ñ
-	*/	
+	 *æ˜¯å¦è´¢ä»˜é€šç­¾å,è§„åˆ™æ˜¯:æŒ‰å‚æ•°åç§°a-zæ’åº,é‡åˆ°ç©ºå€¼çš„å‚æ•°ä¸å‚åŠ ç­¾åã€‚
+	 *true:æ˜¯
+	 *false:å¦
+	 */
 	function isTenpaySign() {
 		$signPars = "";
 		ksort($this->parameters);
@@ -81,79 +81,79 @@ class ResponseHandler  {
 			}
 		}
 		$signPars .= "key=" . $this->getKey();
-		
+
 		$sign = strtolower(md5($signPars));
-		
+
 		$tenpaySign = strtolower($this->getParameter("sign"));
-				
-		//debugĞÅÏ¢
+
+		//debugä¿¡æ¯
 		$this->_setDebugInfo($signPars . " => sign:" . $sign .
-				" tenpaySign:" . $this->getParameter("sign"));
-		
+			" tenpaySign:" . $this->getParameter("sign"));
+
 		return $sign == $tenpaySign;
-		
+
 	}
-	
+
 	/**
-	*»ñÈ¡debugĞÅÏ¢
-	*/	
+	 *è·å–debugä¿¡æ¯
+	 */
 	function getDebugInfo() {
 		return $this->debugInfo;
 	}
-	
+
 	/**
-	*ÏÔÊ¾´¦Àí½á¹û¡£
-	*@param $show_url ÏÔÊ¾´¦Àí½á¹ûµÄurlµØÖ·,¾ø¶ÔurlµØÖ·µÄĞÎÊ½(http://www.xxx.com/xxx.php)¡£
-	*/	
+	 *æ˜¾ç¤ºå¤„ç†ç»“æœã€‚
+	 *@param $show_url æ˜¾ç¤ºå¤„ç†ç»“æœçš„urlåœ°å€,ç»å¯¹urlåœ°å€çš„å½¢å¼(http://www.xxx.com/xxx.php)ã€‚
+	 */
 	function doShow($show_url) {
 		$strHtml = "<html><head>\r\n" .
 			"<meta name=\"TENCENT_ONLINE_PAYMENT\" content=\"China TENCENT\">" .
 			"<script language=\"javascript\">\r\n" .
-				"window.location.href='" . $show_url . "';\r\n" .
+			"window.location.href='" . $show_url . "';\r\n" .
 			"</script>\r\n" .
 			"</head><body></body></html>";
-			
+
 		echo $strHtml;
-		
+
 		exit;
 	}
-	
+
 	/**
-	 * ÊÇ·ñ²Æ¸¶Í¨Ç©Ãû
-	 * @param signParameterArray Ç©ÃûµÄ²ÎÊıÊı×é
+	 * æ˜¯å¦è´¢ä»˜é€šç­¾å
+	 * @param signParameterArray ç­¾åçš„å‚æ•°æ•°ç»„
 	 * @return boolean
-	 */	
+	 */
 	function _isTenpaySign($signParameterArray) {
-	
+
 		$signPars = "";
 		foreach($signParameterArray as $k) {
 			$v = $this->getParameter($k);
 			if("sign" != $k && "" != $v) {
 				$signPars .= $k . "=" . $v . "&";
-			}			
+			}
 		}
 		$signPars .= "key=" . $this->getKey();
-		
+
 		$sign = strtolower(md5($signPars));
-		
+
 		$tenpaySign = strtolower($this->getParameter("sign"));
-				
-		//debugĞÅÏ¢
+
+		//debugä¿¡æ¯
 		$this->_setDebugInfo($signPars . " => sign:" . $sign .
-				" tenpaySign:" . $this->getParameter("sign"));
-		
-		return $sign == $tenpaySign;		
-		
-	
+			" tenpaySign:" . $this->getParameter("sign"));
+
+		return $sign == $tenpaySign;
+
+
 	}
-	
+
 	/**
-	*ÉèÖÃdebugĞÅÏ¢
-	*/	
+	 *è®¾ç½®debugä¿¡æ¯
+	 */
 	function _setDebugInfo($debugInfo) {
 		$this->debugInfo = $debugInfo;
 	}
-	
+
 }
 
 

@@ -1,50 +1,50 @@
 <?php
 /**
- * ¼´Ê±µ½ÕÊÇëÇóÀà
+ * å³æ—¶åˆ°å¸è¯·æ±‚ç±»
  * ============================================================================
- * apiËµÃ÷£º
- * init(),³õÊ¼»¯º¯Êý£¬Ä¬ÈÏ¸øÒ»Ð©²ÎÊý¸³Öµ£¬Èçcmdno,dateµÈ¡£
- * getGateURL()/setGateURL(),»ñÈ¡/ÉèÖÃÈë¿ÚµØÖ·,²»°üº¬²ÎÊýÖµ
- * getKey()/setKey(),»ñÈ¡/ÉèÖÃÃÜÔ¿
- * getParameter()/setParameter(),»ñÈ¡/ÉèÖÃ²ÎÊýÖµ
- * getAllParameters(),»ñÈ¡ËùÓÐ²ÎÊý
- * getRequestURL(),»ñÈ¡´ø²ÎÊýµÄÇëÇóURL
- * doSend(),ÖØ¶¨Ïòµ½²Æ¸¶Í¨Ö§¸¶
- * getDebugInfo(),»ñÈ¡debugÐÅÏ¢
- * 
+ * apiè¯´æ˜Žï¼š
+ * init(),åˆå§‹åŒ–å‡½æ•°ï¼Œé»˜è®¤ç»™ä¸€äº›å‚æ•°èµ‹å€¼ï¼Œå¦‚cmdno,dateç­‰ã€‚
+ * getGateURL()/setGateURL(),èŽ·å–/è®¾ç½®å…¥å£åœ°å€,ä¸åŒ…å«å‚æ•°å€¼
+ * getKey()/setKey(),èŽ·å–/è®¾ç½®å¯†é’¥
+ * getParameter()/setParameter(),èŽ·å–/è®¾ç½®å‚æ•°å€¼
+ * getAllParameters(),èŽ·å–æ‰€æœ‰å‚æ•°
+ * getRequestURL(),èŽ·å–å¸¦å‚æ•°çš„è¯·æ±‚URL
+ * doSend(),é‡å®šå‘åˆ°è´¢ä»˜é€šæ”¯ä»˜
+ * getDebugInfo(),èŽ·å–debugä¿¡æ¯
+ *
  * ============================================================================
  *
  */
 
 require ("RequestHandler.class.php");
 class CheckRequestHandler extends RequestHandler {
-	
+
 	function __construct() {
 		$this->CheckRequestHandler();
 	}
-	
+
 	function CheckRequestHandler() {
-		//Ä¬ÈÏÖ§¸¶Íø¹ØµØÖ·
-		$this->setGateURL("http://mch.tenpay.com/cgi-bin/mchdown_real_new.cgi");	
+		//é»˜è®¤æ”¯ä»˜ç½‘å…³åœ°å€
+		$this->setGateURL("http://mch.tenpay.com/cgi-bin/mchdown_real_new.cgi");
 	}
-	
+
 	/**
-	*@Override
-	*³õÊ¼»¯º¯Êý£¬Ä¬ÈÏ¸øÒ»Ð©²ÎÊý¸³Öµ£¬Èçcmdno,dateµÈ¡£
-	*/
+	 *@Override
+	 *åˆå§‹åŒ–å‡½æ•°ï¼Œé»˜è®¤ç»™ä¸€äº›å‚æ•°èµ‹å€¼ï¼Œå¦‚cmdno,dateç­‰ã€‚
+	 */
 	function init() {
-		
+
 	}
-	
+
 	/**
-	*@Override
-	*´´½¨Ç©Ãû
-	*/
+	 *@Override
+	 *åˆ›å»ºç­¾å
+	 */
 	function createSign() {
-	
+
 		$paraKeys = array("spid", "trans_time", "stamp", "cft_signtype", "mchtype");
-			
-			//×éÖ¯Ç©Ãû
+
+		//ç»„ç»‡ç­¾å
 		$signPars = "";
 		foreach($paraKeys as $k)
 		{
@@ -54,18 +54,18 @@ class CheckRequestHandler extends RequestHandler {
 				$signPars .= $k . "=" . $v . "&";
 			}
 		}
-		
+
 		$signPars .= "key=" . $this->getKey();
-		
-		
-		
+
+
+
 		$sign = strtolower(md5($signPars));
-		
+
 		$this->setParameter("sign", $sign);
-		
-		//debugÐÅÏ¢
+
+		//debugä¿¡æ¯
 		$this->_setDebugInfo($signPars . " => sign:" . $sign);
-		
+
 	}
 
 }

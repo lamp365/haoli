@@ -1,109 +1,109 @@
 <?php
 /**
- * ÇëÇóÀà
+ * è¯·æ±‚ç±»
  * ============================================================================
- * apiËµÃ÷£º
- * init(),³õÊ¼»¯º¯Êý£¬Ä¬ÈÏ¸øÒ»Ð©²ÎÊý¸³Öµ£¬Èçcmdno,dateµÈ¡£
- * getGateURL()/setGateURL(),»ñÈ¡/ÉèÖÃÈë¿ÚµØÖ·,²»°üº¬²ÎÊýÖµ
- * getKey()/setKey(),»ñÈ¡/ÉèÖÃÃÜÔ¿
- * getParameter()/setParameter(),»ñÈ¡/ÉèÖÃ²ÎÊýÖµ
- * getAllParameters(),»ñÈ¡ËùÓÐ²ÎÊý
- * getRequestURL(),»ñÈ¡´ø²ÎÊýµÄÇëÇóURL
- * doSend(),ÖØ¶¨Ïòµ½²Æ¸¶Í¨Ö§¸¶
- * getDebugInfo(),»ñÈ¡debugÐÅÏ¢
- * 
+ * apiè¯´æ˜Žï¼š
+ * init(),åˆå§‹åŒ–å‡½æ•°ï¼Œé»˜è®¤ç»™ä¸€äº›å‚æ•°èµ‹å€¼ï¼Œå¦‚cmdno,dateç­‰ã€‚
+ * getGateURL()/setGateURL(),èŽ·å–/è®¾ç½®å…¥å£åœ°å€,ä¸åŒ…å«å‚æ•°å€¼
+ * getKey()/setKey(),èŽ·å–/è®¾ç½®å¯†é’¥
+ * getParameter()/setParameter(),èŽ·å–/è®¾ç½®å‚æ•°å€¼
+ * getAllParameters(),èŽ·å–æ‰€æœ‰å‚æ•°
+ * getRequestURL(),èŽ·å–å¸¦å‚æ•°çš„è¯·æ±‚URL
+ * doSend(),é‡å®šå‘åˆ°è´¢ä»˜é€šæ”¯ä»˜
+ * getDebugInfo(),èŽ·å–debugä¿¡æ¯
+ *
  * ============================================================================
  *
  */
 class RequestHandler {
-	
-	/** Íø¹ØurlµØÖ· */
+
+	/** ç½‘å…³urlåœ°å€ */
 	var $gateUrl;
-	
-	/** ÃÜÔ¿ */
+
+	/** å¯†é’¥ */
 	var $key;
-	
-	/** ÇëÇóµÄ²ÎÊý */
+
+	/** è¯·æ±‚çš„å‚æ•° */
 	var $parameters;
-	
-	/** debugÐÅÏ¢ */
+
+	/** debugä¿¡æ¯ */
 	var $debugInfo;
-	
+
 	function __construct() {
 		$this->RequestHandler();
 	}
-	
+
 	function RequestHandler() {
 		$this->gateUrl = "https://www.tenpay.com/cgi-bin/v1.0/service_gate.cgi";
 		$this->key = "";
 		$this->parameters = array();
 		$this->debugInfo = "";
 	}
-	
+
 	/**
-	*³õÊ¼»¯º¯Êý¡£
-	*/
+	 *åˆå§‹åŒ–å‡½æ•°ã€‚
+	 */
 	function init() {
 		//nothing to do
 	}
-	
+
 	/**
-	*»ñÈ¡Èë¿ÚµØÖ·,²»°üº¬²ÎÊýÖµ
-	*/
+	 *èŽ·å–å…¥å£åœ°å€,ä¸åŒ…å«å‚æ•°å€¼
+	 */
 	function getGateURL() {
 		return $this->gateUrl;
 	}
-	
+
 	/**
-	*ÉèÖÃÈë¿ÚµØÖ·,²»°üº¬²ÎÊýÖµ
-	*/
+	 *è®¾ç½®å…¥å£åœ°å€,ä¸åŒ…å«å‚æ•°å€¼
+	 */
 	function setGateURL($gateUrl) {
 		$this->gateUrl = $gateUrl;
 	}
-	
+
 	/**
-	*»ñÈ¡ÃÜÔ¿
-	*/
+	 *èŽ·å–å¯†é’¥
+	 */
 	function getKey() {
 		return $this->key;
 	}
-	
+
 	/**
-	*ÉèÖÃÃÜÔ¿
-	*/
+	 *è®¾ç½®å¯†é’¥
+	 */
 	function setKey($key) {
 		$this->key = $key;
 	}
-	
+
 	/**
-	*»ñÈ¡²ÎÊýÖµ
-	*/
+	 *èŽ·å–å‚æ•°å€¼
+	 */
 	function getParameter($parameter) {
 		return $this->parameters[$parameter];
 	}
-	
+
 	/**
-	*ÉèÖÃ²ÎÊýÖµ
-	*/
+	 *è®¾ç½®å‚æ•°å€¼
+	 */
 	function setParameter($parameter, $parameterValue) {
 		$this->parameters[$parameter] = $parameterValue;
 	}
-	
+
 	/**
-	*»ñÈ¡ËùÓÐÇëÇóµÄ²ÎÊý
-	*@return array
-	*/
+	 *èŽ·å–æ‰€æœ‰è¯·æ±‚çš„å‚æ•°
+	 *@return array
+	 */
 	function getAllParameters() {
 		return $this->parameters;
 	}
-	
+
 	/**
-	*»ñÈ¡´ø²ÎÊýµÄÇëÇóURL
-	*/
+	 *èŽ·å–å¸¦å‚æ•°çš„è¯·æ±‚URL
+	 */
 	function getRequestURL() {
-	
+
 		$this->createSign();
-		
+
 		$reqPar = "";
 		ksort($this->parameters);
 		foreach($this->parameters as $k => $v) {
@@ -113,34 +113,34 @@ class RequestHandler {
 				$reqPar .= $k . "=" . str_replace(".", "%2E", $v) . "&";
 			}
 		}
-		
-		//È¥µô×îºóÒ»¸ö&
+
+		//åŽ»æŽ‰æœ€åŽä¸€ä¸ª&
 		$reqPar = substr($reqPar, 0, strlen($reqPar)-1);
-		
+
 		$requestURL = $this->getGateURL() . "?" . $reqPar;
-		
+
 		return $requestURL;
-		
+
 	}
-		
+
 	/**
-	*»ñÈ¡debugÐÅÏ¢
-	*/
+	 *èŽ·å–debugä¿¡æ¯
+	 */
 	function getDebugInfo() {
 		return $this->debugInfo;
 	}
-	
+
 	/**
-	*ÖØ¶¨Ïòµ½²Æ¸¶Í¨Ö§¸¶
-	*/
+	 *é‡å®šå‘åˆ°è´¢ä»˜é€šæ”¯ä»˜
+	 */
 	function doSend() {
 		header("Location:" . $this->getRequestURL());
 		exit;
 	}
-	
+
 	/**
-	*´´½¨md5ÕªÒª,¹æÔòÊÇ:°´²ÎÊýÃû³Æa-zÅÅÐò,Óöµ½¿ÕÖµµÄ²ÎÊý²»²Î¼ÓÇ©Ãû¡£
-	*/
+	 *åˆ›å»ºmd5æ‘˜è¦,è§„åˆ™æ˜¯:æŒ‰å‚æ•°åç§°a-zæŽ’åº,é‡åˆ°ç©ºå€¼çš„å‚æ•°ä¸å‚åŠ ç­¾åã€‚
+	 */
 	function createSign() {
 		$signPars = "";
 		ksort($this->parameters);
@@ -152,15 +152,15 @@ class RequestHandler {
 		$signPars .= "key=" . $this->getKey();
 		$sign = strtolower(md5($signPars));
 		$this->setParameter("sign", $sign);
-		
-		//debugÐÅÏ¢
+
+		//debugä¿¡æ¯
 		$this->_setDebugInfo($signPars . " => sign:" . $sign);
-		
-	}	
-	
+
+	}
+
 	/**
-	*ÉèÖÃdebugÐÅÏ¢
-	*/
+	 *è®¾ç½®debugä¿¡æ¯
+	 */
 	function _setDebugInfo($debugInfo) {
 		$this->debugInfo = $debugInfo;
 	}

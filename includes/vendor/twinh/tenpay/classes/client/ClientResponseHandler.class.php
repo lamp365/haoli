@@ -1,104 +1,104 @@
 <?php
 /**
- * ºóÌ¨Ó¦´ğÀà
+ * åå°åº”ç­”ç±»
  * ============================================================================
- * apiËµÃ÷£º
- * getKey()/setKey(),»ñÈ¡/ÉèÖÃÃÜÔ¿
- * getContent() / setContent(), »ñÈ¡/ÉèÖÃÔ­Ê¼ÄÚÈİ
- * getParameter()/setParameter(),»ñÈ¡/ÉèÖÃ²ÎÊıÖµ
- * getAllParameters(),»ñÈ¡ËùÓĞ²ÎÊı
- * isTenpaySign(),ÊÇ·ñ²Æ¸¶Í¨Ç©Ãû,true:ÊÇ false:·ñ
- * getDebugInfo(),»ñÈ¡debugĞÅÏ¢
- * 
+ * apiè¯´æ˜ï¼š
+ * getKey()/setKey(),è·å–/è®¾ç½®å¯†é’¥
+ * getContent() / setContent(), è·å–/è®¾ç½®åŸå§‹å†…å®¹
+ * getParameter()/setParameter(),è·å–/è®¾ç½®å‚æ•°å€¼
+ * getAllParameters(),è·å–æ‰€æœ‰å‚æ•°
+ * isTenpaySign(),æ˜¯å¦è´¢ä»˜é€šç­¾å,true:æ˜¯ false:å¦
+ * getDebugInfo(),è·å–debugä¿¡æ¯
+ *
  * ============================================================================
  *
  */
 
 class ClientResponseHandler  {
-	
-	/** ÃÜÔ¿ */
+
+	/** å¯†é’¥ */
 	var $key;
-	
-	/** Ó¦´ğµÄ²ÎÊı */
+
+	/** åº”ç­”çš„å‚æ•° */
 	var $parameters;
-	
-	/** debugĞÅÏ¢ */
+
+	/** debugä¿¡æ¯ */
 	var $debugInfo;
-	
-	//Ô­Ê¼ÄÚÈİ
+
+	//åŸå§‹å†…å®¹
 	var $content;
-	
+
 	function __construct() {
 		$this->ClientResponseHandler();
 	}
-	
+
 	function ClientResponseHandler() {
 		$this->key = "";
 		$this->parameters = array();
 		$this->debugInfo = "";
 		$this->content = "";
 	}
-		
+
 	/**
-	*»ñÈ¡ÃÜÔ¿
-	*/
+	 *è·å–å¯†é’¥
+	 */
 	function getKey() {
 		return $this->key;
 	}
-	
+
 	/**
-	*ÉèÖÃÃÜÔ¿
-	*/	
+	 *è®¾ç½®å¯†é’¥
+	 */
 	function setKey($key) {
 		$this->key = $key;
 	}
-	
-	//ÉèÖÃÔ­Ê¼ÄÚÈİ£¬È·±£PHP»·¾³Ö§³Ösimplexml_load_stringÒÔ¼°iconvÕâÁ½¸öº¯Êı²Å¿ÉÒÔ
-	//Ò»°ãPHP5»·¾³ÏÂÃ»ÎÊÌâ£¬PHP4ĞèÒª¼ì²âÒ»ÏÂ»·¾³ÊÇ·ñ°²×°ÁËiconvÒÔ¼°simplexmlÄ£¿é
+
+	//è®¾ç½®åŸå§‹å†…å®¹ï¼Œç¡®ä¿PHPç¯å¢ƒæ”¯æŒsimplexml_load_stringä»¥åŠiconvè¿™ä¸¤ä¸ªå‡½æ•°æ‰å¯ä»¥
+	//ä¸€èˆ¬PHP5ç¯å¢ƒä¸‹æ²¡é—®é¢˜ï¼ŒPHP4éœ€è¦æ£€æµ‹ä¸€ä¸‹ç¯å¢ƒæ˜¯å¦å®‰è£…äº†iconvä»¥åŠsimplexmlæ¨¡å—
 	function setContent($content) {
 		$this->content = $content;
-		
+
 		$xml = simplexml_load_string($this->content);
 		$encode = $this->getXmlEncode($this->content);
-		
+
 		if($xml && $xml->children()) {
 			foreach ($xml->children() as $node){
-				//ÓĞ×Ó½Úµã
+				//æœ‰å­èŠ‚ç‚¹
 				if($node->children()) {
 					$k = $node->getName();
 					$nodeXml = $node->asXML();
 					$v = substr($nodeXml, strlen($k)+2, strlen($nodeXml)-2*strlen($k)-5);
-					
+
 				} else {
 					$k = $node->getName();
 					$v = (string)$node;
 				}
-				
+
 				if($encode!="" && $encode != "UTF-8") {
 					$k = iconv("UTF-8", $encode, $k);
 					$v = iconv("UTF-8", $encode, $v);
 				}
-				
-				$this->setParameter($k, $v);			
+
+				$this->setParameter($k, $v);
 			}
-		}	
+		}
 	}
-	
-	//ÉèÖÃÔ­Ê¼ÄÚÈİ
-	//½â¾öPHP4ÀÏ»·¾³ÏÂ²»Ö§³ÖsimplexmlÒÔ¼°iconv¹¦ÄÜµÄº¯Êı
+
+	//è®¾ç½®åŸå§‹å†…å®¹
+	//è§£å†³PHP4è€ç¯å¢ƒä¸‹ä¸æ”¯æŒsimplexmlä»¥åŠiconvåŠŸèƒ½çš„å‡½æ•°
 	function setContent_backup($content) {
 		$this->content = $content;
 		$encode = $this->getXmlEncode($this->content);
-		$xml = new SofeeXmlParser(); 
-		$xml->parseFile($this->content); 
-		$tree = $xml->getTree(); 
-		unset($xml); 
+		$xml = new SofeeXmlParser();
+		$xml->parseFile($this->content);
+		$tree = $xml->getTree();
+		unset($xml);
 		foreach ($tree['root'] as $key => $value) {
 			if($encode!="" && $encode != "UTF-8") {
 				$k = mb_convert_encoding($key, $encode, "UTF-8");
-				$v = mb_convert_encoding($value[value], $encode, "UTF-8");								
+				$v = mb_convert_encoding($value[value], $encode, "UTF-8");
 			}
-			else 
+			else
 			{
 				$k = $key;
 				$v = $value[value];
@@ -106,41 +106,41 @@ class ClientResponseHandler  {
 			$this->setParameter($k, $v);
 		}
 	}
-	
-	
-	
-	//»ñÈ¡Ô­Ê¼ÄÚÈİ
+
+
+
+	//è·å–åŸå§‹å†…å®¹
 	function getContent() {
 		return $this->content;
 	}
-	
+
 	/**
-	*»ñÈ¡²ÎÊıÖµ
-	*/	
+	 *è·å–å‚æ•°å€¼
+	 */
 	function getParameter($parameter) {
 		return $this->parameters[$parameter];
 	}
-	
+
 	/**
-	*ÉèÖÃ²ÎÊıÖµ
-	*/	
+	 *è®¾ç½®å‚æ•°å€¼
+	 */
 	function setParameter($parameter, $parameterValue) {
 		$this->parameters[$parameter] = $parameterValue;
 	}
-	
+
 	/**
-	*»ñÈ¡ËùÓĞÇëÇóµÄ²ÎÊı
-	*@return array
-	*/
+	 *è·å–æ‰€æœ‰è¯·æ±‚çš„å‚æ•°
+	 *@return array
+	 */
 	function getAllParameters() {
 		return $this->parameters;
-	}	
-	
+	}
+
 	/**
-	*ÊÇ·ñ²Æ¸¶Í¨Ç©Ãû,¹æÔòÊÇ:°´²ÎÊıÃû³Æa-zÅÅĞò,Óöµ½¿ÕÖµµÄ²ÎÊı²»²Î¼ÓÇ©Ãû¡£
-	*true:ÊÇ
-	*false:·ñ
-	*/	
+	 *æ˜¯å¦è´¢ä»˜é€šç­¾å,è§„åˆ™æ˜¯:æŒ‰å‚æ•°åç§°a-zæ’åº,é‡åˆ°ç©ºå€¼çš„å‚æ•°ä¸å‚åŠ ç­¾åã€‚
+	 *true:æ˜¯
+	 *false:å¦
+	 */
 	function isTenpaySign() {
 		$signPars = "";
 		ksort($this->parameters);
@@ -150,27 +150,27 @@ class ClientResponseHandler  {
 			}
 		}
 		$signPars .= "key=" . $this->getKey();
-		
+
 		$sign = strtolower(md5($signPars));
-		
+
 		$tenpaySign = strtolower($this->getParameter("sign"));
-				
-		//debugĞÅÏ¢
+
+		//debugä¿¡æ¯
 		$this->_setDebugInfo($signPars . " => sign:" . $sign .
-				" tenpaySign:" . $this->getParameter("sign"));
-		
+			" tenpaySign:" . $this->getParameter("sign"));
+
 		return $sign == $tenpaySign;
-		
+
 	}
-	
+
 	/**
-	*»ñÈ¡debugĞÅÏ¢
-	*/	
+	 *è·å–debugä¿¡æ¯
+	 */
 	function getDebugInfo() {
 		return $this->debugInfo;
 	}
-	
-	//»ñÈ¡xml±àÂë
+
+	//è·å–xmlç¼–ç 
 	function getXmlEncode($xml) {
 		$ret = preg_match ("/<?xml[^>]* encoding=\"(.*)\"[^>]* ?>/i", $xml, $arr);
 		if($ret) {
@@ -179,43 +179,43 @@ class ClientResponseHandler  {
 			return "";
 		}
 	}
-	
+
 	/**
-	*ÉèÖÃdebugĞÅÏ¢
-	*/	
+	 *è®¾ç½®debugä¿¡æ¯
+	 */
 	function _setDebugInfo($debugInfo) {
 		$this->debugInfo = $debugInfo;
 	}
-	
+
 	/**
-	 * ÊÇ·ñ²Æ¸¶Í¨Ç©Ãû
-	 * @param signParameterArray Ç©ÃûµÄ²ÎÊıÊı×é
+	 * æ˜¯å¦è´¢ä»˜é€šç­¾å
+	 * @param signParameterArray ç­¾åçš„å‚æ•°æ•°ç»„
 	 * @return boolean
-	 */	
+	 */
 	function _isTenpaySign($signParameterArray) {
-	
+
 		$signPars = "";
 		foreach($signParameterArray as $k) {
 			$v = $this->getParameter($k);
 			if("sign" != $k && "" != $v) {
 				$signPars .= $k . "=" . $v . "&";
-			}			
+			}
 		}
 		$signPars .= "key=" . $this->getKey();
-		
+
 		$sign = strtolower(md5($signPars));
-		
+
 		$tenpaySign = strtolower($this->getParameter("sign"));
-				
-		//debugĞÅÏ¢
+
+		//debugä¿¡æ¯
 		$this->_setDebugInfo($signPars . " => sign:" . $sign .
-				" tenpaySign:" . $this->getParameter("sign"));
-		
-		return $sign == $tenpaySign;		
-		
-	
+			" tenpaySign:" . $this->getParameter("sign"));
+
+		return $sign == $tenpaySign;
+
+
 	}
-	
+
 }
 
 

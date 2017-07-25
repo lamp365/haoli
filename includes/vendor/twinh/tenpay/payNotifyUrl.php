@@ -1,7 +1,7 @@
 <?php
 
 //---------------------------------------------------------
-//�Ƹ�ͨ��ʱ����֧����̨�ص�ʾ�����̻����մ��ĵ����п�������
+//财付通即时到帐支付后台回调示例，商户按照此文档进行开发即可
 //---------------------------------------------------------
 
 require ("classes/ResponseHandler.class.php");
@@ -9,77 +9,77 @@ require ("classes/RequestHandler.class.php");
 require ("classes/client/ClientResponseHandler.class.php");
 require ("classes/client/TenpayHttpClient.class.php");
 
-/* �̻��� */
+/* 商户号 */
 $partner = "1900000109";
 
-/* ��Կ */
+/* 密钥 */
 $key = "8934e7d15453e97507ef794cf7b0519d";
 
 
-/* ����֧��Ӧ����� */
+/* 创建支付应答对象 */
 $resHandler = new ResponseHandler();
 $resHandler->setKey($key);
 
-//�ж�ǩ��
+//判断签名
 if($resHandler->isTenpaySign()) {
-	
-	//֪ͨid
+
+	//通知id
 	$notify_id = $resHandler->getParameter("notify_id");
-	
-	//ͨ��֪ͨID��ѯ��ȷ��֪ͨ�����Ƹ�ͨ
-	//������ѯ����
+
+	//通过通知ID查询，确保通知来至财付通
+	//创建查询请求
 	$queryReq = new RequestHandler();
 	$queryReq->init();
 	$queryReq->setKey($key);
 	$queryReq->setGateUrl("https://gw.tenpay.com/gateway/verifynotifyid.xml");
 	$queryReq->setParameter("partner", $partner);
 	$queryReq->setParameter("notify_id", $notify_id);
-	
-	//ͨ�Ŷ���
+
+	//通信对象
 	$httpClient = new TenpayHttpClient();
 	$httpClient->setTimeOut(5);
-	//������������
+	//设置请求内容
 	$httpClient->setReqContent($queryReq->getRequestURL());
-	
-	//��̨����
+
+	//后台调用
 	if($httpClient->call()) {
-		//���ý������
+		//设置结果参数
 		$queryRes = new ClientResponseHandler();
 		$queryRes->setContent($httpClient->getResContent());
 		$queryRes->setKey($key);
-		
-		//�ж�ǩ�������
-		//ֻ��ǩ����ȷ,retcodeΪ0��trade_stateΪ0����֧���ɹ�
+
+		//判断签名及结果
+		//只有签名正确,retcode为0，trade_state为0才是支付成功
 		if($queryRes->isTenpaySign() && $queryRes->getParameter("retcode") == "0" && $queryRes->getParameter("trade_state") == "0" && $queryRes->getParameter("trade_mode") == "1" ) {
-			//ȡ���������ҵ����
+			//取结果参数做业务处理
 			$out_trade_no = $queryRes->getParameter("out_trade_no");
-			//�Ƹ�ͨ������
+			//财付通订单号
 			$transaction_id = $queryRes->getParameter("transaction_id");
-			//���,�Է�Ϊ��λ
+			//金额,以分为单位
 			$total_fee = $queryRes->getParameter("total_fee");
-			//�����ʹ���ۿ�ȯ��discount��ֵ��total_fee+discount=ԭ�����total_fee
+			//如果有使用折扣券，discount有值，total_fee+discount=原请求的total_fee
 			$discount = $queryRes->getParameter("discount");
-			
+
 			//------------------------------
-			//����ҵ��ʼ
+			//处理业务开始
 			//------------------------------
-			
-			//�������ݿ��߼�
-			//ע�⽻�׵���Ҫ�ظ�����
-			//ע���жϷ��ؽ��
-			
+
+			//处理数据库逻辑
+			//注意交易单不要重复处理
+			//注意判断返回金额
+
 			//------------------------------
-			//����ҵ�����
+			//处理业务完毕
 			//------------------------------
 			echo "success";
-			
+
 		} else {
-			//����ʱ�����ؽ������û��ǩ����д��־trade_state��retcode��retmsg��ʧ�����顣
-			//echo "��֤ǩ��ʧ�� �� ҵ�������Ϣ:trade_state=" . $queryRes->getParameter("trade_state") . ",retcode=" . $queryRes->getParameter("retcode"). ",retmsg=" . $queryRes->getParameter("retmsg") . "<br/>" ;
+			//错误时，返回结果可能没有签名，写日志trade_state、retcode、retmsg看失败详情。
+			//echo "验证签名失败 或 业务错误信息:trade_state=" . $queryRes->getParameter("trade_state") . ",retcode=" . $queryRes->getParameter("retcode"). ",retmsg=" . $queryRes->getParameter("retmsg") . "<br/>" ;
 			echo "fail";
 		}
-		
-		//��ȡ��ѯ��debug��Ϣ,���������Ӧ�����ݡ�debug��Ϣ��ͨ�ŷ�����д����־�����㶨λ����
+
+		//获取查询的debug信息,建议把请求、应答内容、debug信息，通信返回码写入日志，方便定位问题
 		/*
 		echo "<br>------------------------------------------------------<br>";
 		echo "http res:" . $httpClient->getResponseCode() . "," . $httpClient->getErrInfo() . "<br>";
@@ -89,20 +89,20 @@ if($resHandler->isTenpaySign()) {
 		echo "query resdebug:" . $queryRes->getDebugInfo() . "<br><br>";
 		*/
 	}else {
-		//ͨ��ʧ��
+		//通信失败
 		echo "fail";
-		//��̨����ͨ��ʧ��,д��־�����㶨λ����
+		//后台调用通信失败,写日志，方便定位问题
 		//echo "<br>call err:" . $httpClient->getResponseCode() ."," . $httpClient->getErrInfo() . "<br>";
-	} 
-	
-	
+	}
+
+
 } else {
-	//�ص�ǩ������
+	//回调签名错误
 	echo "fail";
-	//echo "<br>ǩ��ʧ��<br>";
+	//echo "<br>签名失败<br>";
 }
 
-//��ȡdebug��Ϣ,�����debug��Ϣд����־�����㶨λ����
+//获取debug信息,建议把debug信息写入日志，方便定位问题
 //echo $resHandler->getDebugInfo() . "<br>";
 
 ?>

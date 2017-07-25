@@ -1,55 +1,55 @@
 <?php
 
 /**
- * http¡¢httpsÍ¨ÐÅÀà
+ * httpã€httpsé€šä¿¡ç±»
  * ============================================================================
- * apiËµÃ÷£º
- * setReqContent($reqContent),ÉèÖÃÇëÇóÄÚÈÝ£¬ÎÞÂÛpostºÍget£¬¶¼ÓÃget·½Ê½Ìá¹©
- * getResContent(), »ñÈ¡Ó¦´ðÄÚÈÝ
- * setMethod($method),ÉèÖÃÇëÇó·½·¨,post»òÕßget
- * getErrInfo(),»ñÈ¡´íÎóÐÅÏ¢
- * setCertInfo($certFile, $certPasswd, $certType="PEM"),ÉèÖÃÖ¤Êé£¬Ë«ÏòhttpsÊ±ÐèÒªÊ¹ÓÃ
- * setCaInfo($caFile), ÉèÖÃCA£¬¸ñÊ½Î´pem£¬²»ÉèÖÃÔò²»¼ì²é
- * setTimeOut($timeOut)£¬ ÉèÖÃ³¬Ê±Ê±¼ä£¬µ¥Î»Ãë
- * getResponseCode(), È¡·µ»ØµÄhttp×´Ì¬Âë
- * call(),ÕæÕýµ÷ÓÃ½Ó¿Ú
- * 
+ * apiè¯´æ˜Žï¼š
+ * setReqContent($reqContent),è®¾ç½®è¯·æ±‚å†…å®¹ï¼Œæ— è®ºpostå’Œgetï¼Œéƒ½ç”¨getæ–¹å¼æä¾›
+ * getResContent(), èŽ·å–åº”ç­”å†…å®¹
+ * setMethod($method),è®¾ç½®è¯·æ±‚æ–¹æ³•,postæˆ–è€…get
+ * getErrInfo(),èŽ·å–é”™è¯¯ä¿¡æ¯
+ * setCertInfo($certFile, $certPasswd, $certType="PEM"),è®¾ç½®è¯ä¹¦ï¼ŒåŒå‘httpsæ—¶éœ€è¦ä½¿ç”¨
+ * setCaInfo($caFile), è®¾ç½®CAï¼Œæ ¼å¼æœªpemï¼Œä¸è®¾ç½®åˆ™ä¸æ£€æŸ¥
+ * setTimeOut($timeOut)ï¼Œ è®¾ç½®è¶…æ—¶æ—¶é—´ï¼Œå•ä½ç§’
+ * getResponseCode(), å–è¿”å›žçš„httpçŠ¶æ€ç 
+ * call(),çœŸæ­£è°ƒç”¨æŽ¥å£
+ *
  * ============================================================================
  *
  */
 
 class TenpayHttpClient {
-	//ÇëÇóÄÚÈÝ£¬ÎÞÂÛpostºÍget£¬¶¼ÓÃget·½Ê½Ìá¹©
+	//è¯·æ±‚å†…å®¹ï¼Œæ— è®ºpostå’Œgetï¼Œéƒ½ç”¨getæ–¹å¼æä¾›
 	var $reqContent;
-	//Ó¦´ðÄÚÈÝ
+	//åº”ç­”å†…å®¹
 	var $resContent;
-	//ÇëÇó·½·¨
+	//è¯·æ±‚æ–¹æ³•
 	var $method;
-	
-	//Ö¤ÊéÎÄ¼þ
+
+	//è¯ä¹¦æ–‡ä»¶
 	var $certFile;
-	//Ö¤ÊéÃÜÂë
+	//è¯ä¹¦å¯†ç 
 	var $certPasswd;
-	//Ö¤ÊéÀàÐÍPEM
+	//è¯ä¹¦ç±»åž‹PEM
 	var	$certType;
-	
-	//CAÎÄ¼þ
+
+	//CAæ–‡ä»¶
 	var $caFile;
-	
-	//´íÎóÐÅÏ¢
+
+	//é”™è¯¯ä¿¡æ¯
 	var $errInfo;
-	
-	//³¬Ê±Ê±¼ä
+
+	//è¶…æ—¶æ—¶é—´
 	var $timeOut;
-	
-	//http×´Ì¬Âë
+
+	//httpçŠ¶æ€ç 
 	var $responseCode;
-	
+
 	function __construct() {
 		$this->TenpayHttpClient();
 	}
-	
-	
+
+
 	function TenpayHttpClient() {
 		$this->reqContent = "";
 		$this->resContent = "";
@@ -58,123 +58,123 @@ class TenpayHttpClient {
 		$this->certFile = "";
 		$this->certPasswd = "";
 		$this->certType = "PEM";
-		
+
 		$this->caFile = "";
-		
+
 		$this->errInfo = "";
-		
+
 		$this->timeOut = 120;
-		
+
 		$this->responseCode = 0;
-		
+
 	}
-	
-	
-	//ÉèÖÃÇëÇóÄÚÈÝ
+
+
+	//è®¾ç½®è¯·æ±‚å†…å®¹
 	function setReqContent($reqContent) {
 		$this->reqContent = $reqContent;
 	}
-	
-	//»ñÈ¡½á¹ûÄÚÈÝ
+
+	//èŽ·å–ç»“æžœå†…å®¹
 	function getResContent() {
 		return $this->resContent;
 	}
-	
-	//ÉèÖÃÇëÇó·½·¨post»òÕßget	
+
+	//è®¾ç½®è¯·æ±‚æ–¹æ³•postæˆ–è€…get
 	function setMethod($method) {
 		$this->method = $method;
 	}
-	
-	//»ñÈ¡´íÎóÐÅÏ¢
+
+	//èŽ·å–é”™è¯¯ä¿¡æ¯
 	function getErrInfo() {
 		return $this->errInfo;
 	}
-	
-	//ÉèÖÃÖ¤ÊéÐÅÏ¢
+
+	//è®¾ç½®è¯ä¹¦ä¿¡æ¯
 	function setCertInfo($certFile, $certPasswd, $certType="PEM") {
 		$this->certFile = $certFile;
 		$this->certPasswd = $certPasswd;
 		$this->certType = $certType;
 	}
-	
-	//ÉèÖÃCa
+
+	//è®¾ç½®Ca
 	function setCaInfo($caFile) {
 		$this->caFile = $caFile;
 	}
-	
-	//ÉèÖÃ³¬Ê±Ê±¼ä,µ¥Î»Ãë
+
+	//è®¾ç½®è¶…æ—¶æ—¶é—´,å•ä½ç§’
 	function setTimeOut($timeOut) {
 		$this->timeOut = $timeOut;
 	}
-	
-	//Ö´ÐÐhttpµ÷ÓÃ
+
+	//æ‰§è¡Œhttpè°ƒç”¨
 	function call() {
-		//Æô¶¯Ò»¸öCURL»á»°
+		//å¯åŠ¨ä¸€ä¸ªCURLä¼šè¯
 		$ch = curl_init();
 
-		// ÉèÖÃcurlÔÊÐíÖ´ÐÐµÄ×î³¤ÃëÊý
+		// è®¾ç½®curlå…è®¸æ‰§è¡Œçš„æœ€é•¿ç§’æ•°
 		curl_setopt($ch, CURLOPT_TIMEOUT, $this->timeOut);
 
-		// »ñÈ¡µÄÐÅÏ¢ÒÔÎÄ¼þÁ÷µÄÐÎÊ½·µ»Ø£¬¶ø²»ÊÇÖ±½ÓÊä³ö¡£
+		// èŽ·å–çš„ä¿¡æ¯ä»¥æ–‡ä»¶æµçš„å½¢å¼è¿”å›žï¼Œè€Œä¸æ˜¯ç›´æŽ¥è¾“å‡ºã€‚
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
 
-		// ´ÓÖ¤ÊéÖÐ¼ì²éSSL¼ÓÃÜËã·¨ÊÇ·ñ´æÔÚ
+		// ä»Žè¯ä¹¦ä¸­æ£€æŸ¥SSLåŠ å¯†ç®—æ³•æ˜¯å¦å­˜åœ¨
 		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 1);
-				
-		
+
+
 		$arr = explode("?", $this->reqContent);
 		if(count($arr) >= 2 && $this->method == "post") {
-			//·¢ËÍÒ»¸ö³£¹æµÄPOSTÇëÇó£¬ÀàÐÍÎª£ºapplication/x-www-form-urlencoded£¬¾ÍÏñ±íµ¥Ìá½»µÄÒ»Ñù¡£
+			//å‘é€ä¸€ä¸ªå¸¸è§„çš„POSTè¯·æ±‚ï¼Œç±»åž‹ä¸ºï¼šapplication/x-www-form-urlencodedï¼Œå°±åƒè¡¨å•æäº¤çš„ä¸€æ ·ã€‚
 			curl_setopt($ch, CURLOPT_POST, 1);
 			curl_setopt($ch, CURLOPT_URL, $arr[0]);
-			//Òª´«ËÍµÄËùÓÐÊý¾Ý
+			//è¦ä¼ é€çš„æ‰€æœ‰æ•°æ®
 			curl_setopt($ch, CURLOPT_POSTFIELDS, $arr[1]);
-		
+
 		}else{
 			curl_setopt($ch, CURLOPT_URL, $this->reqContent);
 		}
-		
-		//ÉèÖÃÖ¤ÊéÐÅÏ¢
+
+		//è®¾ç½®è¯ä¹¦ä¿¡æ¯
 		if($this->certFile != "") {
 			curl_setopt($ch, CURLOPT_SSLCERT, $this->certFile);
 			curl_setopt($ch, CURLOPT_SSLCERTPASSWD, $this->certPasswd);
 			curl_setopt($ch, CURLOPT_SSLCERTTYPE, $this->certType);
 		}
-		
-		//ÉèÖÃCA
+
+		//è®¾ç½®CA
 		if($this->caFile != "") {
-			// ¶ÔÈÏÖ¤Ö¤ÊéÀ´Ô´µÄ¼ì²é£¬0±íÊ¾×èÖ¹¶ÔÖ¤ÊéµÄºÏ·¨ÐÔµÄ¼ì²é¡£1ÐèÒªÉèÖÃCURLOPT_CAINFO
+			// å¯¹è®¤è¯è¯ä¹¦æ¥æºçš„æ£€æŸ¥ï¼Œ0è¡¨ç¤ºé˜»æ­¢å¯¹è¯ä¹¦çš„åˆæ³•æ€§çš„æ£€æŸ¥ã€‚1éœ€è¦è®¾ç½®CURLOPT_CAINFO
 			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
 			curl_setopt($ch, CURLOPT_CAINFO, $this->caFile);
 		} else {
-			// ¶ÔÈÏÖ¤Ö¤ÊéÀ´Ô´µÄ¼ì²é£¬0±íÊ¾×èÖ¹¶ÔÖ¤ÊéµÄºÏ·¨ÐÔµÄ¼ì²é¡£1ÐèÒªÉèÖÃCURLOPT_CAINFO
+			// å¯¹è®¤è¯è¯ä¹¦æ¥æºçš„æ£€æŸ¥ï¼Œ0è¡¨ç¤ºé˜»æ­¢å¯¹è¯ä¹¦çš„åˆæ³•æ€§çš„æ£€æŸ¥ã€‚1éœ€è¦è®¾ç½®CURLOPT_CAINFO
 			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
 		}
-		
-		// Ö´ÐÐ²Ù×÷
+
+		// æ‰§è¡Œæ“ä½œ
 		$res = curl_exec($ch);
 		$this->responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-		
-		if ($res == NULL) { 
-		   $this->errInfo = "call http err :" . curl_errno($ch) . " - " . curl_error($ch) ;
-		   curl_close($ch);
-		   return false;
+
+		if ($res == NULL) {
+			$this->errInfo = "call http err :" . curl_errno($ch) . " - " . curl_error($ch) ;
+			curl_close($ch);
+			return false;
 		} else if($this->responseCode  != "200") {
 			$this->errInfo = "call http err httpcode=" . $this->responseCode  ;
 			curl_close($ch);
 			return false;
 		}
-		
+
 		curl_close($ch);
 		$this->resContent = $res;
 
-		
+
 		return true;
 	}
-	
+
 	function getResponseCode() {
 		return $this->responseCode;
 	}
-	
+
 }
 ?>
