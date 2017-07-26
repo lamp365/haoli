@@ -108,94 +108,214 @@ class tenpayService extends \service\publicService
         exit;
     }
 
-    /**
-     * 异步回调
-     * @return string
-     */
-    public function notify_alipay()
-    {
-        $config       = $this->alipay_config;
-        $alipayNotify = new \AlipayNotify($config); //计算得出通知验证结果
-        if ($result = $alipayNotify->verifyNotify()) {
-            //验签成功
-            if ($_POST['trade_status'] == 'TRADE_FINISHED' || $_POST['trade_status'] == 'TRADE_SUCCESS') {
-                $ordersn     = $_POST['out_trade_no'];
-                //成功后的后续操作/**
-                paySuccessProcess($ordersn);
-                return true;
-            }else{
-                $member  = get_member_account();
-                $memInfo = member_get($member['openid'],'mobile');
-                logRecord("{$memInfo['mobile']}用户支付业务错误",'payError');
-                $this->error = '业务错误';
-                return false;
-            }
-        }else{
-            //验证失败  记录日志
-            $member  = get_member_account();
-            $memInfo = member_get($member['openid'],'mobile');
-            logRecord("{$memInfo['mobile']}用户支付异步签名验证失败",'payError');
-            $this->error = '支付失败';
-            return false;
-        }
-    }
 
-    /**
-     * 同步回调  返回的数据
-     *Array
-    (
-    [mod] => mobile
-    [name] => shopwap
-    [do] => alipay
-    [op] => returnurl
-    [body] => 测试商品
-    [buyer_email] => 791845283@qq.com
-    [buyer_id] => 2088802661101009
-    [exterface] => create_direct_pay_by_user
-    [is_success] => T
-    [notify_id] => RqPnCoPT3K9%2Fvwbh3InYwe9UQaecKY9y3krILMLAzIFwEVVFOIAEcfZx4sSZwAlhKQTA
-    [notify_time] => 2017-06-22 17:27:33
-    [notify_type] => trade_status_sync
-    [out_trade_no] => sn099239283879
-    [payment_type] => 1
-    [seller_email] => 33413434@qq.com
-    [seller_id] => 2088321009666241
-    [subject] => sn099239283879
-    [total_fee] => 0.01
-    [trade_no] => 2017062221001004000219681644
-    [trade_status] => TRADE_SUCCESS
-    [sign] => 280e4387a81f3e7cd2f28aa0f4203a12
-    [sign_type] => MD5
-    )
-     */
-    public function return_alipay()
+    public function returnUrl()
     {
-        $config = $this->alipay_config;
-        $alipayNotify  = new \AlipayNotify($config); //计算得出通知验证结果
-        $verify_result = $alipayNotify->verifyReturn();
-        if ($verify_result) {
-            //验证成功
-            if ($_GET['trade_status'] == 'TRADE_FINISHED' || $_GET['trade_status'] == 'TRADE_SUCCESS') {
-                $ordersn     = $_GET['out_trade_no'];
-                //成功后的后续操作/**
-                paySuccessProcess($ordersn);
-                return true;
-            } else {
-                $member  = get_member_account();
-                $memInfo = member_get($member['openid'],'mobile');
-                logRecord("{$memInfo['mobile']}用户支付业务错误",'payError');
-                $this->error = '业务错误';
+        /* 商户号，上线时务必将测试商户号替换为正式商户号 */
+        $partner =  $this->tenpay_config['partner'];
+        /* 密钥 */
+        $key =  $this->tenpay_config['key'];
+        $resHandler = new \kevin365\tenpay\src\ResponseHandler();
+        $resHandler->setKey($key);
+
+        //判断签名
+        if($resHandler->isTenpaySign()) {
+
+            //通知id
+            $notify_id = $resHandler->getParameter("notify_id");
+
+            //通过通知ID查询，确保通知来至财付通
+            //创建查询请求
+            $queryReq = new \kevin365\tenpay\src\RequestHandler();
+            $queryReq->init();
+            $queryReq->setKey($key);
+            $queryReq->setGateUrl("https://gw.tenpay.com/gateway/verifynotifyid.xml");
+            $queryReq->setParameter("partner", $partner);
+            $queryReq->setParameter("notify_id", $notify_id);
+
+            //通信对象
+            $httpClient = new \kevin365\tenpay\src\client\TenpayHttpClient();
+            $httpClient->setTimeOut(5);
+            //设置请求内容
+            $httpClient->setReqContent($queryReq->getRequestURL());
+
+            //后台调用
+            if($httpClient->call()) {
+                //设置结果参数
+                $queryRes = new \kevin365\tenpay\src\client\ClientResponseHandler();
+                $queryRes->setContent($httpClient->getResContent());
+                $queryRes->setKey($key);
+
+                //判断签名及结果
+                //只有签名正确,retcode为0，trade_state为0才是支付成功
+                if($queryRes->isTenpaySign() && $queryRes->getParameter("retcode") == "0" && $queryRes->getParameter("trade_state") == "0" && $queryRes->getParameter("trade_mode") == "1" ) {
+                    //取结果参数做业务处理
+                    $out_trade_no = $queryRes->getParameter("out_trade_no");
+                    //财付通订单号
+                    $transaction_id = $queryRes->getParameter("transaction_id");
+                    //金额,以分为单位
+                    $total_fee = $queryRes->getParameter("total_fee");
+                    //如果有使用折扣券，discount有值，total_fee+discount=原请求的total_fee
+                    $discount = $queryRes->getParameter("discount");
+
+                    //------------------------------
+                    //处理业务开始
+                    //------------------------------
+                    ppd($out_trade_no);
+                    paySuccessProcess($out_trade_no);
+                    //处理数据库逻辑
+                    //注意交易单不要重复处理
+                    //!!!注意判断返回金额!!!
+
+                    //------------------------------
+                    //处理业务完毕
+                    //------------------------------
+                    return true;
+
+                } else {
+                    //错误时，返回结果可能没有签名，写日志trade_state、retcode、retmsg看失败详情。
+                    //echo "验证签名失败 或 业务错误信息:trade_state=" . $queryRes->getParameter("trade_state") . ",retcode=" . $queryRes->getParameter("retcode"). ",retmsg=" . $queryRes->getParameter("retmsg") . "<br/>" ;
+                   $errMsg = "财付通验证签名失败 或 业务错误信息:trade_state=" . $queryRes->getParameter("trade_state") . ",retcode=" . $queryRes->getParameter("retcode"). ",retmsg=" . $queryRes->getParameter("retmsg");
+                    logRecord($errMsg,'payError');
+                    $this->error = '支付失败！';
+                    return false;
+                }
+
+                //获取查询的debug信息,建议把请求、应答内容、debug信息，通信返回码写入日志，方便定位问题
+                /*
+                echo "<br>------------------------------------------------------<br>";
+                echo "http res:" . $httpClient->getResponseCode() . "," . $httpClient->getErrInfo() . "<br>";
+                echo "query req:" . htmlentities($queryReq->getRequestURL(), ENT_NOQUOTES, "GB2312") . "<br><br>";
+                echo "query res:" . htmlentities($queryRes->getContent(), ENT_NOQUOTES, "GB2312") . "<br><br>";
+                echo "query reqdebug:" . $queryReq->getDebugInfo() . "<br><br>" ;
+                echo "query resdebug:" . $queryRes->getDebugInfo() . "<br><br>";
+                */
+            }else {
+                //通信失败
+                //echo "fail";
+                //后台调用通信失败,写日志，方便定位问题，这些信息注意保密，最好不要打印给用户
+//                echo "<br>订单通知查询失败:" . $httpClient->getResponseCode() ."," . $httpClient->getErrInfo() . "<br>";
+                $errMsg = "财付通订单通知查询失败:" . $httpClient->getResponseCode() ."," . $httpClient->getErrInfo();
+                logRecord($errMsg,'payError');
+                $this->error = '支付失败！';
                 return false;
             }
         } else {
-            //验证失败  记录日志
-            $member  = get_member_account();
-            $memInfo = member_get($member['openid'],'mobile');
-            logRecord("{$memInfo['mobile']}用户支付异步签名验证失败",'payError');
-            $this->error = '支付失败';
+            //签名错误
+            $errMsg = "财付通签名错误";
+            logRecord($errMsg,'payError');
+            $this->error = '支付失败！';
             return false;
         }
+
     }
 
+    public function notifyUrl()
+    {
+
+        /* 商户号，上线时务必将测试商户号替换为正式商户号 */
+        $partner =  $this->tenpay_config['partner'];
+        /* 密钥 */
+        $key =  $this->tenpay_config['key'];
+
+        /* 创建支付应答对象 */
+        $resHandler = new \kevin365\tenpay\src\ResponseHandler();
+        $resHandler->setKey($key);
+
+        //判断签名
+        if($resHandler->isTenpaySign()) {
+
+            //通知id
+            $notify_id = $resHandler->getParameter("notify_id");
+
+            //通过通知ID查询，确保通知来至财付通
+            //创建查询请求
+            $queryReq = new \kevin365\tenpay\src\RequestHandler();
+            $queryReq->init();
+            $queryReq->setKey($key);
+            $queryReq->setGateUrl("https://gw.tenpay.com/gateway/verifynotifyid.xml");
+            $queryReq->setParameter("partner", $partner);
+            $queryReq->setParameter("notify_id", $notify_id);
+
+            //通信对象
+            $httpClient = new \kevin365\tenpay\src\client\TenpayHttpClient();
+            $httpClient->setTimeOut(5);
+            //设置请求内容
+            $httpClient->setReqContent($queryReq->getRequestURL());
+
+            //后台调用
+            if($httpClient->call()) {
+                //设置结果参数
+                $queryRes = new \kevin365\tenpay\src\client\ClientResponseHandler();
+                $queryRes->setContent($httpClient->getResContent());
+                $queryRes->setKey($key);
+
+                //判断签名及结果
+                //只有签名正确,retcode为0，trade_state为0才是支付成功
+                if($queryRes->isTenpaySign() && $queryRes->getParameter("retcode") == "0" && $queryRes->getParameter("trade_state") == "0" && $queryRes->getParameter("trade_mode") == "1" ) {
+                    //取结果参数做业务处理
+                    $out_trade_no = $queryRes->getParameter("out_trade_no");
+                    //财付通订单号
+                    $transaction_id = $queryRes->getParameter("transaction_id");
+                    //金额,以分为单位
+                    $total_fee = $queryRes->getParameter("total_fee");
+                    //如果有使用折扣券，discount有值，total_fee+discount=原请求的total_fee
+                    $discount = $queryRes->getParameter("discount");
+
+                    //------------------------------
+                    //处理业务开始
+                    //------------------------------
+                    paySuccessProcess($out_trade_no);
+                    //处理数据库逻辑
+                    //注意交易单不要重复处理
+                    //注意判断返回金额
+
+                    //------------------------------
+                    //处理业务完毕
+                    //------------------------------
+                   return true;
+
+                } else {
+                    //错误时，返回结果可能没有签名，写日志trade_state、retcode、retmsg看失败详情。
+                    //echo "验证签名失败 或 业务错误信息:trade_state=" . $queryRes->getParameter("trade_state") . ",retcode=" . $queryRes->getParameter("retcode"). ",retmsg=" . $queryRes->getParameter("retmsg") . "<br/>" ;
+                    $errMsg = "财付通验证签名失败 或 业务错误信息:trade_state=" . $queryRes->getParameter("trade_state") . ",retcode=" . $queryRes->getParameter("retcode"). ",retmsg=" . $queryRes->getParameter("retmsg");
+                    logRecord($errMsg,'payError');
+                    $this->error = '支付失败！';
+                    return false;
+                }
+
+                //获取查询的debug信息,建议把请求、应答内容、debug信息，通信返回码写入日志，方便定位问题
+                /*
+                echo "<br>------------------------------------------------------<br>";
+                echo "http res:" . $httpClient->getResponseCode() . "," . $httpClient->getErrInfo() . "<br>";
+                echo "query req:" . htmlentities($queryReq->getRequestURL(), ENT_NOQUOTES, "GB2312") . "<br><br>";
+                echo "query res:" . htmlentities($queryRes->getContent(), ENT_NOQUOTES, "GB2312") . "<br><br>";
+                echo "query reqdebug:" . $queryReq->getDebugInfo() . "<br><br>" ;
+                echo "query resdebug:" . $queryRes->getDebugInfo() . "<br><br>";
+                */
+            }else {
+                //通信失败
+                //后台调用通信失败,写日志，方便定位问题
+                //echo "<br>call err:" . $httpClient->getResponseCode() ."," . $httpClient->getErrInfo() . "<br>";
+                $errMsg =  "财付通call err:" . $httpClient->getResponseCode() ."," . $httpClient->getErrInfo();
+                logRecord($errMsg,'payError');
+                $this->error = '支付失败！';
+                return false;
+            }
+
+
+        } else {
+            //回调签名错误
+            //echo "<br>签名失败<br>";
+            $errMsg = "财付通签名失败";
+            logRecord($errMsg,'payError');
+            $this->error = '支付失败！';
+            return false;
+        }
+
+        //获取debug信息,建议把debug信息写入日志，方便定位问题
+        //echo $resHandler->getDebugInfo() . "<br>";
+
+    }
 
 }

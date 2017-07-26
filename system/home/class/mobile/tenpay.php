@@ -28,8 +28,8 @@ class tenpay extends \home\controller\base
      */
     function notifyUrl()
     {
-        $pay = new \service\shopwap\alipayService();
-        $result = $pay->notify_alipay();
+        $pay = new \service\shopwap\tenpayService();
+        $result = $pay->notifyUrl();
         if($result){
             ajaxReturnData(1,'支付成功','success');
         }else{
@@ -42,8 +42,8 @@ class tenpay extends \home\controller\base
      */
     function returnUrl()
     {
-        $pay = new \service\shopwap\alipayService();
-        $result = $pay->return_alipay();
+        $pay = new \service\shopwap\tenpayService();
+        $result = $pay->returnUrl();
         if($result) {
             message('支付成功！',mobile_url('order',array('name'=>'home')),'success');
         } else {
