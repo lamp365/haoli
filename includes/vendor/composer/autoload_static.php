@@ -30,8 +30,6 @@ class ComposerStaticInita03732d71b5d719fd173028dfd41b5c2
         ),
         'Q' => 
         array (
-            'QL\\Ext\\Lib\\' => 11,
-            'QL\\Ext\\' => 7,
             'QL\\' => 3,
         ),
     );
@@ -56,15 +54,6 @@ class ComposerStaticInita03732d71b5d719fd173028dfd41b5c2
         'Yinjiang\\Qqlogin\\' => 
         array (
             0 => __DIR__ . '/..' . '/yinjiang/qqlogin/src',
-        ),
-        'QL\\Ext\\Lib\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/jaeger/curlmulti',
-        ),
-        'QL\\Ext\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/jaeger/querylist-ext-aquery',
-            1 => __DIR__ . '/..' . '/jaeger/querylist-ext-multi',
         ),
         'QL\\' => 
         array (

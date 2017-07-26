@@ -11,7 +11,5 @@ return array(
     'houdunwang\\image\\' => array($vendorDir . '/houdunwang/image/src'),
     'houdunwang\\config\\' => array($vendorDir . '/houdunwang/config/src'),
     'Yinjiang\\Qqlogin\\' => array($vendorDir . '/yinjiang/qqlogin/src'),
-    'QL\\Ext\\Lib\\' => array($vendorDir . '/jaeger/curlmulti'),
-    'QL\\Ext\\' => array($vendorDir . '/jaeger/querylist-ext-aquery', $vendorDir . '/jaeger/querylist-ext-multi'),
     'QL\\' => array($vendorDir . '/jaeger/querylist'),
 );

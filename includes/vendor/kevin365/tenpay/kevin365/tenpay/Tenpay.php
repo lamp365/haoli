@@ -12,17 +12,15 @@ class Tenpay{
     public $tenpay_config = array(
         'partner'    => '**********',          //这里是你在成功申请财付通接口后获取到的商户号；
         'key'        => '*******************', //这里是你在成功申请财付通接口后获取到的密钥
-        'return_url' => '',
-        'notify_url' => '',
+        'return_url' => '********/tenreturnurl',
+        'notify_url' => '********/tennotifyurl',
     );
-    public function __construct()
+    public function __construct($tenpay_config)
     {
-        $payment    = getPayment('tenpay');
-        $config     = unserialize($payment['configs']);
-        $this->tenpay_config['partner']    = $config['tenpay_partner'];
-        $this->tenpay_config['key']        = $config['tenpay_key'];
-        $this->tenpay_config['return_url'] = mobile_url('tenpay',array('op'=>'returnUrl'));
-        $this->tenpay_config['notify_url'] = mobile_url('tenpay',array('op'=>'notifyUrl'));
+        $this->tenpay_config['partner']    = $tenpay_config['partner'];
+        $this->tenpay_config['key']        = $tenpay_config['key'];
+        $this->tenpay_config['return_url'] = $tenpay_config['return_url'];
+        $this->tenpay_config['notify_url'] = $tenpay_config['notify_url'];
     }
 
     public function pay($data)
@@ -33,8 +31,9 @@ class Tenpay{
         $partner =  $this->tenpay_config['partner'];
         /* 密钥 */
         $key =  $this->tenpay_config['key'];
-        $data['subject'] = iconv('UTF-8','GB2312//IGNORE',$data['subject']);
-
+        $data['title'] = iconv('UTF-8','GB2312//IGNORE',$data['title']);
+        //订单号，此处用时间加随机数生成，商户根据自己情况调整，只要保持全局唯一就行
+        $out_trade_no = $data['ordersn'];
         $reqHandler->init();
         $reqHandler->setKey($key);
         $reqHandler->setGateUrl("https://gw.tenpay.com/gateway/pay.htm");
@@ -42,17 +41,17 @@ class Tenpay{
         //设置支付参数
         //----------------------------------------
         $reqHandler->setParameter("partner", $partner);
-        $reqHandler->setParameter("out_trade_no", $data['out_trade_no']);
-        $reqHandler->setParameter("total_fee", $data['total_fee']);  //总金额
+        $reqHandler->setParameter("out_trade_no", $out_trade_no);
+        $reqHandler->setParameter("total_fee", $data['price']);  //总金额
         $reqHandler->setParameter("return_url",  $this->tenpay_config['return_url']);
         $reqHandler->setParameter("notify_url", $this->tenpay_config['notify_url']);
-        $reqHandler->setParameter("body", $data['subject']);
+        $reqHandler->setParameter("body", $data['title']);
         $reqHandler->setParameter("bank_type", "DEFAULT");  	  //银行类型，默认为财付通
 
         //用户ip
         $reqHandler->setParameter("spbill_create_ip", $_SERVER['REMOTE_ADDR']);//客户端IP
         $reqHandler->setParameter("fee_type", "1");               //币种
-        $reqHandler->setParameter("subject",$data['subject']);          //商品名称，（中介交易时必填）
+        $reqHandler->setParameter("subject",$data['title']);          //商品名称，（中介交易时必填）
         //系统可选参数
         $reqHandler->setParameter("sign_type", "MD5");  	 	  //签名方式，默认为MD5，可选RSA
         $reqHandler->setParameter("service_version", "1.0"); 	  //接口版本号
