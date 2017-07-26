@@ -99,6 +99,14 @@ class confirm extends \home\controller\base
             }else{
                 die($result);
             }
+        }else if($paytype == 'ten'){
+            $pay_data = array(
+                'out_trade_no'  => $res_data['pay_ordersn'], //订单号
+                'subject'       => $res_data['pay_title'],  //标题
+                'total_fee'     => $res_data['pay_total_money'], //订单金额，单位为元
+            );
+            $payobj = new \service\shopwap\tenpayService();
+            $payobj->tenpay($pay_data);
         }
     }
 

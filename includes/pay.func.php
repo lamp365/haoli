@@ -10,8 +10,11 @@
  * 获得支付方式信息
  * 
  */
-function getPayment() {
-	return mysqld_selectall ( "select code,name,id from " . table ( "payment" ) . " where enabled=1 order by `order` desc" );
+function getPayment($code = '') {
+	if(empty($code))
+		return mysqld_selectall ( "select code,name,id from " . table ( "payment" ) . " where enabled=1 order by `order` desc" );
+	else
+		return mysqld_select("SELECT * FROM " . table('payment') . " WHERE  enabled=1 and code='{$code}' limit 1");
 }
 
 
