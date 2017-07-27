@@ -42,9 +42,6 @@ class QpayMchAPI{
 
     public function reqQpay($params){
         $ret = array();
-        //商户号
-        $params["mch_id"] = $this->pay_config['MCH_ID'];
-
         $QpayMch = new QpayMchUtil();
         //随机字符串
         $params["nonce_str"] = $QpayMch->createNoncestr();

@@ -107,6 +107,21 @@ class confirm extends \home\controller\base
             );
             $payobj = new \service\shopwap\tenpayService();
             $payobj->tenpay($pay_data);
+        }else if($paytype == 'qqrcode'){
+            $pay_data = array(
+                'out_trade_no'  => $res_data['pay_ordersn'], //订单号
+                'subject'       => $res_data['pay_title'],  //标题
+                'total_fee'     => $res_data['pay_total_money'], //订单金额，单位为元
+            );
+            $payobj = new \service\shopwap\qpayService();
+            $result = $payobj->qpay($pay_data);
+            if (!$result) {
+                message($payobj->getError(),refresh(),'error');
+            }else{
+                $cfg = globaSetting();
+                //如果是PC端那么返回的是一段 扫码地址
+                include themePage('qpay');
+            }
         }
     }
 
