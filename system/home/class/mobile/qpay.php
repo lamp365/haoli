@@ -17,7 +17,7 @@ class qpay extends \home\controller\base
         $pay_data = array(
             'out_trade_no'  => '201762646'.uniqid(), //订单号
             'subject'       => '测试商品呀',  //标题
-            'total_fee'     => 1, //订单金额，单位为元
+            'total_fee'     => 1, //订单金额，单位为分
         );
         $payobj = new \service\shopwap\qpayService();
         $result = $payobj->qpay($pay_data);

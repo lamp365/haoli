@@ -101,7 +101,21 @@ class qpayService extends \service\publicService
 
         $Qpay   = new \kevin365\tenpay\qpay\QpayMchUtil();
         $notifyData = $Qpay->xmlToArray($xml);
-
+        /**
+         * array (
+         * 'bank_type' => 'BALANCE',
+         * 'cash_fee' => '1',
+         * 'fee_type' => 'CNY',
+         * 'mch_id' => '1486419881',
+         * 'nonce_str' => '9f101b952d28b213996a15f346f5bd60',
+         * 'out_trade_no' => '201762646597985b966171',
+         * 'sign' => '6E00258E8A541475F3DA30F6AE5C518C',
+         * 'time_end' => '20170727142132', 'total_fee' => '1',
+         * 'trade_state' => 'SUCCESS',
+         * 'trade_type' => 'APP',
+         * 'transaction_id' => '14864198816012201707271607465870',
+         * ) 14:21:42 | array ( 'bank_type' => 'BALANCE', 'cash_fee' => '1', 'fee_type' => 'CNY', 'mch_id' => '1486419881', 'nonce_str' => '6407f64bc1baaff5694e391d15af2f73', 'out_trade_no' => '201762646597985b966171', 'sign' => '5923C5B6008A5603F7E78A7DABD5942E', 'time_end' => '20170727142132', 'total_fee' => '1', 'trade_state' => 'SUCCESS', 'trade_type' => 'APP', 'transaction_id' => '14864198816012201707271607465870', ) 14:21:58 | array ( 'bank_type' => 'BALANCE', 'cash_fee' => '1', 'fee_type' => 'CNY', 'mch_id' => '1486419881', 'nonce_str' => '477f41461c23e7e6460a3bcdf49abaf3', 'out_trade_no' => '201762646597985b966171', 'sign' => 'F0105D21AE1750D319933164F04E6078', 'time_end' => '20170727142132', 'total_fee' => '1', 'trade_state' => 'SUCCESS', 'trade_type' => 'APP', 'transaction_id' => '14864198816012201707271607465870', )
+         */
         $returnSign = $notifyData['sign'];
         unset($notifyData['sign']);
         $sign = $Qpay->getSign($notifyData,$config['MCH_KEY']);//本地签名
@@ -123,7 +137,7 @@ class qpayService extends \service\publicService
             return false;
         } else {
             //此处应该更新一下订单状态，商户自行增删操作  支付成功！
-//           paySuccessProcess();
+            paySuccessProcess($notifyData['out_trade_no']);
             return true;
         }
     }
