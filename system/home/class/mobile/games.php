@@ -17,6 +17,15 @@ class games extends \home\controller\base
 		}
 		$dish_json = json_encode($allDish);
 
+		$openid   = checkIsLogin();
+		$need_tip = 0;
+		//查找未支付的订单
+		if($openid){
+			$wait_order = mysqld_select("select * from ".table('shop_order')." where openid='{$openid}' and status=0");
+			if($wait_order){
+				$need_tip = 1;
+			}
+		}
 		//记住当前
 		to_member_loginfromurl();
 		include themePage('games');

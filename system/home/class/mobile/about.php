@@ -8,6 +8,7 @@ class about extends \home\controller\base
 		$_GP     = $this->request;
 		$seting  = globaSetting();
         $kefuQQ  = getQQ_onWork($seting);
+		$openid  = checkIsLogin();
 		include themePage('about');
 	}
 }

@@ -124,7 +124,7 @@
                             <span></span>
                         </div>
                     </label>
-                    <label>
+                    <label id="qqpay" style="display: none">
                         <div class="box">
                             <input name="paytype" type="radio" value="qqrcode"> &nbsp;<img src="__RESOURCE__/games/images/qq1.png" width="238" height="60" style="vertical-align:middle">
                             <span></span>
@@ -138,6 +138,19 @@
 
 <script>
     var dish_json = '<!--@php echo $dish_json; @-->';
+    $(function(){
+        var sUserAgent = navigator.userAgent.toLowerCase();
+        var res = sUserAgent.match(/qq\//i);
+        if(res == 'qq/'){
+            //是qq内置浏览器的
+            $("#qqpay").show();
+        }
+
+        var need_tip = "<!--@php echo $need_tip; @-->";
+        if(need_tip){
+            layer.alert('您有订单等待支付',{icon: 5});
+        }
+    });
 
     function changeTotal(obj) {
         if($("#dishid").val() == 0)  { $(obj).val(1);return '';}
@@ -205,7 +218,8 @@
             layer.confirm('您还未登录!', {
                 btn: ['马上登录','稍后登录'] //按钮
             }, function(){
-                window.location.href = "http://"+window.location.host;
+                var loUrl = "<!--@php echo mobile_url('login',array('op'=>'index'));@-->";
+                window.location.href = loUrl;
             }, function(){
 
             });
@@ -218,13 +232,9 @@
             }
         });
         var allType = {'ali':1,'weixin':1,'qqrcode':1,'ten':1};
-        var allType2 = {'qqrcode':1,'ten':1};
+        var allType2 = {'ten':1};
         if(paytype == '' || !allType.hasOwnProperty(paytype)){
             layer.alert('支付类型不对！',{icon: 5});
-            return '';
-        }
-        if(allType2.hasOwnProperty(paytype)){
-            layer.alert('该支付类型等待完善中！',{icon: 5});
             return '';
         }
         var dish_id = $("#dishid").val();

@@ -322,6 +322,11 @@
             text: qrcodeurl
         });
 
+        var need_tip = "<!--@php echo $need_tip; @-->";
+        if(need_tip){
+            layer.alert('您有订单等待支付',{icon: 5});
+        }
+        
         $(".add").click(function(){
             if($("#dishid").val() == 0)  return '';
             var t=$(this).parent().find('input[class*=text_box]');
@@ -442,7 +447,7 @@
            }
         });
         var allType = {'ali':1,'weixin':1,'qqrcode':1,'ten':1};
-        var allType2 = {'qqrcode':1,'ten':1};
+        var allType2 = {'ten':1};
         if(paytype == '' || !allType.hasOwnProperty(paytype)){
             layer.alert('支付类型不对！',{icon: 5});
             return '';
