@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta content="telephone=no, address=no" name="format-detection">
+	<meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+	<title>QQ扫码支付</title>
+	<meta name="keywords" content="<!--@php echo $cfg['shop_keyword']; @-->" />
+	<meta name="description" content="<!--@php echo $cfg['shop_description']; @-->" />
+
+	<link href="__RESOURCE__/index/css/index.css" rel="stylesheet">
+	<script src="__RESOURCE__/script/jquery-1.11.0.js"></script>
+	<script src="__RESOURCE__/recouse/js/layer.js"></script>
+	<style>
+		.qrcode{
+			background-color:#fdfdfd;
+			border: 1px solid #e3e3e3;
+			box-shadow: 0 1px 10px rgba(0, 0, 0, 0.2);
+			width: 240px;
+			height: 240px;
+			margin: 0 auto;
+			border-radius: 8px;
+		}
+		.tips{
+			width: 240px;
+			height: 25px;
+
+		}
+	</style>
+</head>
+<body>
+
+<div class="none_select header__wrap env_production header__transparent">
+	<div class="header__main">
+		<div class="header__logo" data-offline="离线">
+			<!--http://x.yupoo.com/-->
+		</div>
+		<div class="header__dashbord header__tips displaynone">
+
+		</div>
+		<div class="header__login header__tips">
+			<a href="/">首页</a>
+			<span class="header__separator"></span>
+			<a href="<!--@php echo mobile_url('games',array('op'=>'index')); @-->">赞助</a>
+		</div>
+	</div>
+</div>
+
+<main class="index__index index__main">
+	<div class="index__indexHeader none_select">
+		<div aria-hidden="true" class="index__headerBackground">
+			<img width="0" height="0" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAWgCAYAAACfbSllAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyhpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMDY3IDc5LjE1Nzc0NywgMjAxNS8wMy8zMC0yMzo0MDo0MiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTUgKE1hY2ludG9zaCkiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6MDlDNjA5MDg3MTg4MTFFNkJCNkNCMjA1OUZGQzIxMkMiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6MDlDNjA5MDk3MTg4MTFFNkJCNkNCMjA1OUZGQzIxMkMiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDowOUM2MDkwNjcxODgxMUU2QkI2Q0IyMDU5RkZDMjEyQyIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDowOUM2MDkwNzcxODgxMUU2QkI2Q0IyMDU5RkZDMjEyQyIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PvdG8uAAAAB4SURBVHja7NjLCYAwEITh2e3P4uzHqmxgPIjgVRTZbP7LQG5fJg9CtGzrniEpdUYofRsWjgDZ2gcN1WQ0QFgehuULZMrBQiVU8iqCSmZimIPDXfJdmLctD39AnVU2XUHjW7N5iTHQcg+2O//nevKeC3/flZ7HIcAA+2AX9Gj+ZNoAAAAASUVORK5CYII=">
+		</div>
+		<section class="index__action">
+			<h1 class="index__title"><!--@php echo $cfg['shop_title']; @--></h1>
+			<div class="index__line"></div>
+		</section>
+		<img class="index__headerBackgroundMask" src="__RESOURCE__/index/images/website_header_mask.png">
+	</div>
+
+	<section class="index__summary">
+		<div class="index__title">金额<?php echo number_format($pay_data['total_fee']/100,2); ?></div>
+		<p>
+			长按可自动识别扫码
+		</p>
+	</section>
+
+	<section class="index__list">
+		<div class="qrcode">
+			<img alt="模式二扫码支付"
+				 src="<?php echo WEBSITE_ROOT;?>includes/lib/phpqrcode/qrcode.php?data=<?php echo urlencode($result);?>"
+				 style="width: 238px; height: 238px;" />
+		</div>
+	</section>
+</main>
+<div class="footer__main none_select">
+	<nav class="footerlink__links ">
+		<a class="footerlink__link" href="<!--@php echo mobile_url('games',array('op'=>'index')); @-->">游戏币种</a>
+		<a class="footerlink__link" href="<!--@php echo mobile_url('order',array('op'=>'index')); @-->">订单查询</a>
+		<a class="footerlink__link" href="<!--@php echo mobile_url('about',array('op'=>'index')); @-->">关于我们</a>
+	</nav>
+	<p class="footer__copyright">
+		<span>Copyright © 2005-2017, </span> <span>版权所有</span>
+
+	</p>
+</div>
+
+
+<script type="text/javascript" language="javascript">
+	$(function(){
+		var sUserAgent = navigator.userAgent.toLowerCase();
+		var res = sUserAgent.match(/qq\//i);
+		if(res != 'qq/'){
+			layer.alert('请用手机QQ打开！',{icon: 5});
+		}
+	});
+
+	function checkorder()
+	{
+		$.getJSON("<?php echo 	mobile_url('order',array('name' => 'home','op' => 'checkIsPay','ordersn'=>$pay_data['out_trade_no']));?>", {}, function(data){
+			if(data.errno == 1)
+			{
+				location.href="<?php echo mobile_url('order',array('name' => 'home','op' => 'index')); ?>";
+			}else if(data.errno == -1){
+				layer.alert(data.message,{icon: 5});
+			}
+		},'json');
+	}
+	setInterval("checkorder()", 2000);
+
+</script>
+
+</body>
+</html>
