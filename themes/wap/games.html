@@ -147,7 +147,7 @@
         }
 
         var need_tip = "<!--@php echo $need_tip; @-->";
-        if(need_tip){
+        if(need_tip == 0){
             layer.alert('您有订单等待支付',{icon: 5});
         }
     });
