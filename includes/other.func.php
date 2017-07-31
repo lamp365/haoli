@@ -146,7 +146,7 @@ function pp()
     $arr = func_get_args();
     echo '<pre>';
     foreach($arr as $val) {
-        print_r($val);
+        var_dump($val);
         echo '</pre>';
         echo '<pre>';
     }
