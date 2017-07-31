@@ -16,6 +16,7 @@ class base extends \common\controller\basecontroller{
         parent::__construct();
         $weixinAuth = new \service\shopwap\weixinAuthService();
         $user_wx_openid = $weixinAuth->GetOpenid(); //授权获取openid以及微信用户信息
+        logRecord($user_wx_openid.'____','wx_error');
     }
 
 }
