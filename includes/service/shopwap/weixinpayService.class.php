@@ -31,7 +31,6 @@ class weixinpayService extends \service\publicService
         $this->alipay_config['appid']     = $appid;
         $this->alipay_config['mch_id']    = $configs['weixin_pay_mchId'];
         $this->alipay_config['key']       = $configs['weixin_pay_paySignKey'];
-        pp('config',$this->alipay_config);
     }
 
     /**
@@ -60,8 +59,8 @@ class weixinpayService extends \service\publicService
             $config     = $this->alipay_config;
             $parameters = array(
                 'appId'     => $config['appid'],//小程序ID
-                'timeStamp' => ''.time().'',//时间戳
-                'nonceStr'  => make_nonceStr(),//随机串
+                'timeStamp' => time(),//时间戳
+                'nonceStr'  => make_nonceStr(8),//随机串
                 'package'   => 'prepay_id='.$unifiedorder['prepay_id'],//数据包
                 'signType'  => 'MD5'//签名方式
             );
@@ -96,7 +95,7 @@ class weixinpayService extends \service\publicService
         $parameters =array(
             'appid'     => $config['appid'],//小程序或者公众号ID
             'mch_id'    => $config['mch_id'],//商户号
-            'nonce_str' => make_nonceStr(),//随机字符串()
+            'nonce_str' => make_nonceStr(8),//随机字符串()
             'body'      => $body,//商品描述
             'out_trade_no'     => $pay_ordersn,  //商户订单号  如果有多条订单的话  用下划线分隔
             'total_fee'        => $total_fee,//总金额 单位 分
@@ -119,7 +118,7 @@ class weixinpayService extends \service\publicService
 
         //统一下单签名
         $parameters['sign'] = $this->getSign($parameters);
-        pp(22222,$parameters);
+        pp(22,$parameters);
         $xmlData            = $this->arrayToXml($parameters);
         $postXmlSSLCurl     = $this->postXmlSSLCurl($xmlData,$url,60);
         $return             = $this->xmlToArray($postXmlSSLCurl);
@@ -147,7 +146,7 @@ class weixinpayService extends \service\publicService
             $Parameters[$k] = $v;
         }
         //签名步骤一：按字典序排序参数
-        ksort($Parameters);
+        ksort($Parameters,SORT_STRING);
         $String = $this->formatBizQueryParaMap($Parameters, false);
         //签名步骤二：在string后加入KEY
         $String = $String."&key=".$config['key'];
@@ -160,7 +159,7 @@ class weixinpayService extends \service\publicService
     ///作用：格式化参数，签名过程需要使用
     private function formatBizQueryParaMap($paraMap, $urlencode){
         $buff = "";
-        ksort($paraMap);
+        ksort($paraMap,SORT_STRING);
         foreach ($paraMap as $k => $v){
             if($urlencode)
             {

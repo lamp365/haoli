@@ -103,10 +103,10 @@ function weixin_send_custom_message($from_user, $msg)
     http_post($url, $post);
 }
 
-function make_nonceStr()
+function make_nonceStr($leng = 16)
 {
 	$codeSet = '1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-	for ($i = 0; $i<16; $i++) {
+	for ($i = 0; $i<$leng; $i++) {
 		$codes[$i] = $codeSet[mt_rand(0, strlen($codeSet)-1)];
 	}
 	$nonceStr = implode($codes);
