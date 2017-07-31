@@ -50,7 +50,6 @@ class weixinpayService extends \service\publicService
         }
         //统一下单接口
         $unifiedorder = $this->unifiedorder($data);
-        pp(3333,$unifiedorder);
         if(!$unifiedorder){
             return false;
         }
@@ -66,7 +65,6 @@ class weixinpayService extends \service\publicService
             );
             //签名
             $parameters['paySign'] = $this->getSign($parameters);
-            pp(44,$parameters);
             //小程序直接返回给小晨旭   微信端的话，配合写一段js
             return $parameters;
         }else{
@@ -118,7 +116,6 @@ class weixinpayService extends \service\publicService
 
         //统一下单签名
         $parameters['sign'] = $this->getSign($parameters);
-        pp(22,$parameters);
         $xmlData            = $this->arrayToXml($parameters);
         $postXmlSSLCurl     = $this->postXmlSSLCurl($xmlData,$url,60);
         $return             = $this->xmlToArray($postXmlSSLCurl);

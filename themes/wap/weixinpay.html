@@ -10,7 +10,7 @@
 	document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
 		WeixinJSBridge.invoke(
 				'getBrandWCPayRequest',{
-					'appId' 	: " <?php echo $result['appId'];?>",
+					'appId' 	: "<?php echo $result['appId'];?>",
 					'timeStamp' : "<?php echo $result['timeStamp'];?>",
 					'nonceStr'  : "<?php echo $result['nonceStr'];?>",
 					'package'   : "<?php echo $result['package'];?>",

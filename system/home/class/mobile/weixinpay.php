@@ -9,7 +9,7 @@ namespace home\controller;
 
 class weixinpay extends \home\controller\base
 {
-    /**
+    /** 统一下单和拉起支付的appid不一致
      * 微信（即时到帐）
      * @param string $ordersn 订单号
      */
